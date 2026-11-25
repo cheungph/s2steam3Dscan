@@ -1,0 +1,2421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Final Entrance Visit: Turning Real Life into (x, y, z) — S2 STEAM Slides</title>
+
+  <!-- Google Fonts: Patrick Hand (handmade sketchbook headings/labels) & Nunito (ultra-clear classroom body text) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Patrick+Hand&display=swap" rel="stylesheet" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* =========================================================
+       DESIGN TOKENS — HANDMADE ARCHITECT'S SKETCHBOOK PALETTE
+       ========================================================= */
+    :root {
+      --paper-bg: #FAF6EE;
+      --grid-line: #EAE2D3;
+      --ink: #22252A;
+      --ink-muted: #4B515C;
+      --hl-yellow: #FEF08A;
+      --hl-blue: #BAE6FD;
+      --hl-mint: #BBF7D0;
+      --hl-coral: #FECACA;
+      --hl-lavender: #E9D5FF;
+      --accent-blue: #1D4ED8;
+      --accent-red: #DC2626;
+      --accent-teal: #0F766E;
+      --shadow-hard: 3px 4px 0px #22252A;
+      --shadow-soft: 2px 3px 0px rgba(34, 37, 42, 0.85);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #2B2D33;
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--ink);
+      user-select: none;
+    }
+
+    .font-hand {
+      font-family: 'Patrick Hand', cursive, sans-serif;
+      letter-spacing: 0.015em;
+    }
+
+    .font-body {
+      font-family: 'Nunito', sans-serif;
+    }
+
+    /* =========================================================
+       VIEWPORT STAGE & 16:9 SCALING WRAPPER
+       ========================================================= */
+    #viewport {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-bottom: 64px; /* Room for floating control bar */
+      position: relative;
+      overflow: hidden;
+    }
+
+    #stage-scaler {
+      width: 1280px;
+      height: 720px;
+      position: relative;
+      transform-origin: center center;
+      flex-shrink: 0;
+      box-shadow: 0 22px 55px rgba(0, 0, 0, 0.55);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    /* Graph paper sketchbook background */
+    .sketchbook-paper {
+      background-color: var(--paper-bg);
+      background-image:
+        linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* =========================================================
+       SLIDE CONTAINER
+       ========================================================= */
+    .slide {
+      display: none;
+      width: 1280px;
+      height: 720px;
+      padding: 32px 44px 28px 44px;
+      position: relative;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .slide.active {
+      display: flex;
+      animation: slideFadeIn 0.22s ease-out;
+    }
+
+    @keyframes slideFadeIn {
+      from { opacity: 0.35; transform: translateY(4px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Subtle binder-hole / notebook margin aesthetic on left edge */
+    .slide::before {
+      content: '';
+      position: absolute;
+      left: 16px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: rgba(220, 38, 38, 0.16);
+      pointer-events: none;
+    }
+
+    /* =========================================================
+       HANDMADE SKETCHBOOK CARDS, WOBBLY BORDERS, TAPE & HIGHLIGHTS
+       ========================================================= */
+    .sketch-card {
+      background: #FFFDF9;
+      border: 2.5px solid var(--ink);
+      border-radius: 18px 24px 16px 22px / 22px 16px 24px 18px;
+      box-shadow: var(--shadow-hard);
+      position: relative;
+    }
+
+    .sketch-card-alt {
+      background: #FFFDF9;
+      border: 2.5px solid var(--ink);
+      border-radius: 22px 16px 24px 18px / 16px 24px 18px 22px;
+      box-shadow: var(--shadow-hard);
+      position: relative;
+    }
+
+    .sketch-pill {
+      border: 2px solid var(--ink);
+      border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+      box-shadow: 2px 3px 0px var(--ink);
+    }
+
+    .sticky-note {
+      background: #FEF9C3;
+      border: 2px solid var(--ink);
+      border-radius: 4px 14px 10px 6px / 12px 6px 14px 4px;
+      box-shadow: 3px 4px 0px var(--ink);
+      position: relative;
+    }
+
+    /* Translucent pastel masking tape strips */
+    .tape {
+      position: absolute;
+      height: 22px;
+      width: 82px;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-2.5deg);
+      border: 1.5px solid rgba(34, 37, 42, 0.25);
+      border-radius: 2px;
+      opacity: 0.85;
+      pointer-events: none;
+      z-index: 5;
+    }
+    .tape-left { left: 48px; transform: rotate(-11deg); width: 70px; }
+    .tape-right { left: auto; right: 32px; transform: rotate(9deg); width: 70px; }
+    .tape-yellow { background: rgba(254, 240, 138, 0.88); }
+    .tape-blue   { background: rgba(186, 230, 253, 0.88); }
+    .tape-mint   { background: rgba(187, 247, 208, 0.88); }
+    .tape-coral  { background: rgba(254, 202, 202, 0.88); }
+    .tape-lavender { background: rgba(233, 213, 255, 0.88); }
+
+    /* Highlighter marker swipe effect */
+    .hl-yellow   { background: linear-gradient(104deg, transparent 0.5%, var(--hl-yellow) 2.5%, var(--hl-yellow) 97%, transparent 99%); padding: 0 6px; border-radius: 4px; }
+    .hl-blue     { background: linear-gradient(104deg, transparent 0.5%, var(--hl-blue) 2.5%, var(--hl-blue) 97%, transparent 99%); padding: 0 6px; border-radius: 4px; }
+    .hl-mint     { background: linear-gradient(104deg, transparent 0.5%, var(--hl-mint) 2.5%, var(--hl-mint) 97%, transparent 99%); padding: 0 6px; border-radius: 4px; }
+    .hl-coral    { background: linear-gradient(104deg, transparent 0.5%, var(--hl-coral) 2.5%, var(--hl-coral) 97%, transparent 99%); padding: 0 6px; border-radius: 4px; }
+    .hl-lavender { background: linear-gradient(104deg, transparent 0.5%, var(--hl-lavender) 2.5%, var(--hl-lavender) 97%, transparent 99%); padding: 0 6px; border-radius: 4px; }
+
+    /* Sketchbook interactive button */
+    .sketch-btn {
+      border: 2px solid var(--ink);
+      border-radius: 12px 16px 13px 15px / 15px 12px 16px 13px;
+      box-shadow: 2px 3px 0px var(--ink);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+      cursor: pointer;
+    }
+    .sketch-btn:hover {
+      transform: translate(-1px, -1px);
+      box-shadow: 3px 4px 0px var(--ink);
+    }
+    .sketch-btn:active {
+      transform: translate(1px, 2px);
+      box-shadow: 1px 1px 0px var(--ink);
+    }
+
+    /* Slide 4 Interactive Deduction Cards */
+    .deduction-card {
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .deduction-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 4px 6px 0px var(--ink);
+    }
+    .deduction-card .answer-box {
+      display: none;
+    }
+    .deduction-card.revealed .answer-box {
+      display: block;
+      animation: popReveal 0.22s ease-out;
+    }
+    .deduction-card.revealed .reveal-prompt {
+      display: none;
+    }
+
+    @keyframes popReveal {
+      from { opacity: 0; transform: scale(0.97); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* Interactive Checklist Items (Slides 5 & 9) */
+    .check-item {
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+    .check-box-icon {
+      width: 24px;
+      height: 24px;
+      border: 2.5px solid var(--ink);
+      border-radius: 6px;
+      background: #FFFDF9;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: background-color 0.15s ease;
+    }
+    .check-item.checked .check-box-icon {
+      background: #4ADE80;
+    }
+    .check-item.checked .check-text {
+      text-decoration: line-through;
+      opacity: 0.65;
+    }
+
+    /* Slide footer number stamp */
+    .slide-num-stamp {
+      position: absolute;
+      bottom: 10px;
+      right: 18px;
+      font-family: 'Patrick Hand', cursive;
+      font-size: 17px;
+      color: rgba(34, 37, 42, 0.55);
+      pointer-events: none;
+    }
+
+    /* =========================================================
+       ANNOTATION CANVAS OVERLAY (APPLE PENCIL / TOUCH / MOUSE)
+       ========================================================= */
+    #draw-canvas {
+      position: absolute;
+      inset: 0;
+      width: 1280px;
+      height: 720px;
+      z-index: 40;
+      pointer-events: none;
+      touch-action: auto;
+    }
+    #draw-canvas.drawing-active {
+      pointer-events: auto;
+      touch-action: none;
+      cursor: crosshair;
+    }
+
+    /* =========================================================
+       FLOATING CLASSROOM CONTROL BAR
+       ========================================================= */
+    #toolbar {
+      position: fixed;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 60;
+      background: rgba(250, 246, 238, 0.96);
+      border: 2.5px solid var(--ink);
+      border-radius: 18px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 3px 4px 0px var(--ink);
+      padding: 6px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      max-width: 96vw;
+      overflow-x: auto;
+      backdrop-filter: blur(8px);
+    }
+
+    .tb-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      padding: 6px 11px;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      background: #FFFDF9;
+      color: var(--ink);
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background-color 0.14s, transform 0.1s;
+    }
+    .tb-btn:hover { background: #F3EDE0; }
+    .tb-btn:active { transform: translateY(1px); }
+    .tb-btn.active-tool {
+      background: var(--hl-yellow);
+      box-shadow: inset 0 0 0 1px var(--ink);
+    }
+
+    .tb-divider {
+      width: 2px;
+      height: 24px;
+      background: rgba(34, 37, 42, 0.22);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .pen-swatch {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2.5px solid var(--ink);
+      cursor: pointer;
+      transition: transform 0.12s;
+      flex-shrink: 0;
+    }
+    .pen-swatch:hover { transform: scale(1.12); }
+    .pen-swatch.selected {
+      transform: scale(1.18);
+      box-shadow: 0 0 0 2px #FFFDF9, 0 0 0 4px var(--ink);
+    }
+
+    #slide-select {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      padding: 5px 8px;
+      background: #FFFDF9;
+      color: var(--ink);
+      cursor: pointer;
+      outline: none;
+    }
+
+    /* Non-blocking toast notification */
+    #toast {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-80px);
+      z-index: 80;
+      background: #22252A;
+      color: #FAF6EE;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+      transition: transform 0.25s ease;
+      pointer-events: none;
+    }
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* =========================================================
+       PRINT / EXPORT PDF — CLEAN LANDSCAPE ONE SLIDE PER PAGE
+       ========================================================= */
+    @media print {
+      @page {
+        size: 1280px 720px landscape;
+        margin: 0;
+      }
+      html, body {
+        width: auto;
+        height: auto;
+        overflow: visible !important;
+        background: #FAF6EE !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      #viewport {
+        display: block !important;
+        width: auto !important;
+        height: auto !important;
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+      #stage-scaler {
+        transform: none !important;
+        width: 1280px !important;
+        height: auto !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
+      }
+      .slide {
+        display: flex !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        width: 1280px !important;
+        height: 720px !important;
+      }
+      .slide:last-of-type {
+        page-break-after: auto !important;
+        break-after: auto !important;
+      }
+      #toolbar, #draw-canvas, #toast, .no-print {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast notification for fullscreen/tool feedback -->
+  <div id="toast" role="status" aria-live="polite"></div>
+
+  <!-- Main Centered 16:9 Presentation Stage -->
+  <main id="viewport">
+    <div id="stage-scaler">
+
+      <!-- =================================================================
+           SLIDE 1 — TITLE & MISSION HOOK
+           ================================================================= -->
+      <section class="slide sketchbook-paper active" data-slide="1" aria-label="Slide 1: Title and Mission Hook">
+        <!-- Header -->
+        <div class="flex flex-col items-center text-center">
+          <span class="sketch-pill bg-[#FEF08A] px-5 py-1 font-hand text-[21px] font-bold text-[#22252A] mb-2">
+            S2 STEAM Mathematical Modeling Unit
+          </span>
+          <h1 class="font-hand text-[52px] leading-[1.06] font-bold text-[#22252A]">
+            Final Entrance Visit: Turning Real Life into <span class="hl-blue">(x, y, z)</span>
+          </h1>
+        </div>
+
+        <!-- Wide Hand-Drawn SVG Banner: Sketched Entrance -> 3D Math! -> 3D Point Cloud & Wireframe -->
+        <div class="sketch-card bg-[#FFFDF9] px-4 py-2 my-1">
+          <div class="tape tape-yellow tape-left"></div>
+          <div class="tape tape-mint tape-right"></div>
+          <svg viewBox="0 0 1120 262" class="w-full h-[250px]" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Hand-drawn school main entrance transforming into a 3D point cloud and triangle wireframe">
+            <!-- LEFT SIDE: Hand-sketched Real School Main Entrance -->
+            <g transform="translate(18, 12)">
+              <!-- Soft sky & ground watercolor wash -->
+              <rect x="8" y="10" width="430" height="222" rx="14" fill="#F4EFE4" stroke="#22252A" stroke-width="2" stroke-dasharray="6 4" />
+              <path d="M 14 210 Q 120 205 225 210 T 432 208 L 432 230 L 14 230 Z" fill="#E5DEC9" />
+
+              <!-- Building main facade -->
+              <path d="M 54 46 L 386 44 L 388 186 L 52 188 Z" fill="#FFFDF9" stroke="#22252A" stroke-width="2.6" stroke-linejoin="round" />
+              <!-- Upper facade windows -->
+              <rect x="78" y="60" width="52" height="32" rx="3" fill="#BAE6FD" stroke="#22252A" stroke-width="2" />
+              <line x1="104" y1="60" x2="104" y2="92" stroke="#22252A" stroke-width="1.6" />
+              <rect x="196" y="59" width="52" height="32" rx="3" fill="#BAE6FD" stroke="#22252A" stroke-width="2" />
+              <line x1="222" y1="59" x2="222" y2="91" stroke="#22252A" stroke-width="1.6" />
+              <rect x="312" y="58" width="52" height="32" rx="3" fill="#BAE6FD" stroke="#22252A" stroke-width="2" />
+              <line x1="338" y1="58" x2="338" y2="90" stroke="#22252A" stroke-width="1.6" />
+
+              <!-- School Signboard -->
+              <rect x="148" y="99" width="146" height="22" rx="3" fill="#FEF08A" stroke="#22252A" stroke-width="2" />
+              <text x="221" y="115" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="16" font-weight="bold" fill="#22252A">MAIN ENTRANCE</text>
+
+              <!-- Entrance Canopy (Overhanging Roof) -->
+              <path d="M 78 134 L 364 132 L 382 121 L 96 123 Z" fill="#CBD5E1" stroke="#22252A" stroke-width="2.5" stroke-linejoin="round" />
+              <path d="M 78 134 L 364 132 L 364 142 L 78 144 Z" fill="#94A3B8" stroke="#22252A" stroke-width="2.3" stroke-linejoin="round" />
+
+              <!-- Two Pillars -->
+              <rect x="102" y="143" width="22" height="47" fill="#E2E8F0" stroke="#22252A" stroke-width="2.4" />
+              <rect x="318" y="142" width="22" height="47" fill="#E2E8F0" stroke="#22252A" stroke-width="2.4" />
+
+              <!-- Double Glass Doors -->
+              <rect x="172" y="143" width="98" height="45" fill="#E0F2FE" stroke="#22252A" stroke-width="2.2" />
+              <line x1="221" y1="143" x2="221" y2="188" stroke="#22252A" stroke-width="2.2" />
+              <!-- Glass sheen lines -->
+              <line x1="184" y1="152" x2="196" y2="164" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" />
+              <line x1="234" y1="152" x2="246" y2="164" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" />
+
+              <!-- Concrete Entrance Steps -->
+              <path d="M 88 190 L 354 189 L 364 198 L 78 199 Z" fill="#F1F5F9" stroke="#22252A" stroke-width="2" />
+              <path d="M 78 199 L 364 198 L 374 208 L 68 209 Z" fill="#E2E8F0" stroke="#22252A" stroke-width="2" />
+              <path d="M 68 209 L 374 208 L 384 218 L 58 219 Z" fill="#CBD5E1" stroke="#22252A" stroke-width="2" />
+
+              <!-- Sketched Potted Bushes -->
+              <path d="M 28 196 Q 22 174 38 172 Q 52 166 56 184 Q 62 194 48 198 Z" fill="#BBF7D0" stroke="#22252A" stroke-width="2" />
+              <rect x="32" y="196" width="18" height="14" fill="#FDBA74" stroke="#22252A" stroke-width="1.8" />
+              <path d="M 392 194 Q 386 173 402 170 Q 416 168 418 184 Q 424 194 408 197 Z" fill="#BBF7D0" stroke="#22252A" stroke-width="2" />
+              <rect x="396" y="195" width="18" height="14" fill="#FDBA74" stroke="#22252A" stroke-width="1.8" />
+
+              <!-- Label badge -->
+              <rect x="130" y="14" width="184" height="24" rx="12" fill="#FFFDF9" stroke="#22252A" stroke-width="1.8" />
+              <text x="222" y="31" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="18" fill="#22252A">Real School Entrance</text>
+            </g>
+
+            <!-- MIDDLE: Sketched Curved Arrow + "3D Math!" Badge -->
+            <g transform="translate(476, 62)">
+              <rect x="16" y="10" width="136" height="40" rx="12" fill="#FEF08A" stroke="#22252A" stroke-width="2.4" transform="rotate(-3 84 30)" />
+              <text x="84" y="37" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="28" font-weight="bold" fill="#22252A" transform="rotate(-3 84 30)">3D Math!</text>
+
+              <!-- Hand-drawn curved arrow -->
+              <path d="M 8 92 Q 84 62 154 90" fill="none" stroke="#22252A" stroke-width="4" stroke-linecap="round" />
+              <path d="M 138 75 L 158 91 L 135 103" fill="none" stroke="#22252A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+
+              <!-- Little coordinate tag underneath -->
+              <text x="84" y="128" text-anchor="middle" font-family="Nunito, sans-serif" font-size="15" font-weight="800" fill="#1D4ED8">Points + Triangles</text>
+              <text x="84" y="149" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" fill="#4B515C">LiDAR / Video AI</text>
+
+              <!-- Tiny sparkle stars -->
+              <path d="M 18 68 L 21 60 L 24 68 L 32 71 L 24 74 L 21 82 L 18 74 L 10 71 Z" fill="#F59E0B" />
+              <path d="M 148 52 L 150 46 L 152 52 L 158 54 L 152 56 L 150 62 L 148 56 L 142 54 Z" fill="#38BDF8" />
+            </g>
+
+            <!-- RIGHT SIDE: 3D Point-Cloud & Triangular Wireframe Mesh -->
+            <g transform="translate(658, 12)">
+              <rect x="8" y="10" width="434" height="222" rx="14" fill="#1E2430" stroke="#22252A" stroke-width="2.5" />
+              <!-- Subtle isometric floor grid inside 3D viewer -->
+              <g stroke="#334155" stroke-width="1" opacity="0.8">
+                <line x1="34" y1="204" x2="416" y2="204" />
+                <line x1="56" y1="186" x2="394" y2="186" />
+                <line x1="80" y1="170" x2="370" y2="170" />
+                <line x1="120" y1="170" x2="72" y2="222" />
+                <line x1="224" y1="170" x2="224" y2="222" />
+                <line x1="328" y1="170" x2="376" y2="222" />
+              </g>
+
+              <!-- 3D Coordinate Axes in bottom-left corner -->
+              <g transform="translate(46, 198)">
+                <line x1="0" y1="0" x2="34" y2="0" stroke="#F87171" stroke-width="2.5" />
+                <text x="38" y="5" font-family="Patrick Hand, cursive" font-size="16" fill="#F87171">x</text>
+                <line x1="0" y1="0" x2="0" y2="-32" stroke="#4ADE80" stroke-width="2.5" />
+                <text x="-5" y="-36" font-family="Patrick Hand, cursive" font-size="16" fill="#4ADE80">y</text>
+                <line x1="0" y1="0" x2="-18" y2="18" stroke="#38BDF8" stroke-width="2.5" />
+                <text x="-28" y="25" font-family="Patrick Hand, cursive" font-size="16" fill="#38BDF8">z</text>
+              </g>
+
+              <!-- Triangular Wireframe Mesh of the Entrance -->
+              <g fill="rgba(56, 189, 248, 0.14)" stroke="#38BDF8" stroke-width="1.35">
+                <!-- Back facade triangles -->
+                <polygon points="94,54 224,54 156,118" />
+                <polygon points="224,54 358,54 290,118" />
+                <polygon points="94,54 156,118 94,178" />
+                <polygon points="224,54 156,118 290,118" />
+                <polygon points="358,54 290,118 358,178" />
+                <polygon points="156,118 290,118 224,178" />
+                <polygon points="156,118 94,178 224,178" />
+                <polygon points="290,118 358,178 224,178" />
+              </g>
+              <!-- Protruding Canopy Wireframe (highlighted in mint/yellow) -->
+              <g fill="rgba(74, 222, 128, 0.18)" stroke="#4ADE80" stroke-width="1.8">
+                <polygon points="116,120 338,120 364,136 90,136" />
+                <line x1="116" y1="120" x2="364" y2="136" stroke-dasharray="3 3" />
+                <line x1="227" y1="120" x2="227" y2="136" />
+                <!-- Pillars wireframe -->
+                <polygon points="112,136 128,136 128,186 112,186" />
+                <line x1="112" y1="136" x2="128" y2="186" />
+                <polygon points="326,136 342,136 342,186 326,186" />
+                <line x1="326" y1="136" x2="342" y2="186" />
+              </g>
+              <!-- Steps wireframe -->
+              <g fill="rgba(250, 204, 21, 0.15)" stroke="#FACC15" stroke-width="1.4">
+                <polygon points="96,186 358,186 380,208 74,208" />
+                <line x1="96" y1="186" x2="227" y2="208" />
+                <line x1="358" y1="186" x2="227" y2="208" />
+                <line x1="85" y1="197" x2="369" y2="197" />
+              </g>
+
+              <!-- Colored Point Cloud Dots at vertices and surfaces -->
+              <g>
+                <circle cx="94" cy="54" r="4" fill="#F87171" />
+                <circle cx="158" cy="54" r="3.5" fill="#FACC15" />
+                <circle cx="224" cy="54" r="4" fill="#38BDF8" />
+                <circle cx="290" cy="54" r="3.5" fill="#4ADE80" />
+                <circle cx="358" cy="54" r="4" fill="#F87171" />
+                <circle cx="156" cy="118" r="4" fill="#38BDF8" />
+                <circle cx="224" cy="88" r="3.5" fill="#E879F9" />
+                <circle cx="290" cy="118" r="4" fill="#38BDF8" />
+                <circle cx="116" cy="120" r="4" fill="#4ADE80" />
+                <circle cx="338" cy="120" r="4" fill="#4ADE80" />
+                <circle cx="90" cy="136" r="4.5" fill="#FACC15" />
+                <circle cx="227" cy="136" r="4" fill="#FACC15" />
+                <circle cx="364" cy="136" r="4.5" fill="#FACC15" />
+                <circle cx="120" cy="160" r="3.5" fill="#4ADE80" />
+                <circle cx="334" cy="160" r="3.5" fill="#4ADE80" />
+                <circle cx="94" cy="178" r="4" fill="#38BDF8" />
+                <circle cx="224" cy="178" r="4" fill="#F87171" />
+                <circle cx="358" cy="178" r="4" fill="#38BDF8" />
+                <circle cx="74" cy="208" r="4" fill="#FACC15" />
+                <circle cx="227" cy="208" r="4" fill="#FACC15" />
+                <circle cx="380" cy="208" r="4" fill="#FACC15" />
+                <!-- Scattered extra scan points -->
+                <circle cx="124" cy="84" r="2.5" fill="#BAE6FD" />
+                <circle cx="326" cy="84" r="2.5" fill="#BAE6FD" />
+                <circle cx="190" cy="148" r="2.5" fill="#FDBA74" />
+                <circle cx="262" cy="148" r="2.5" fill="#FDBA74" />
+              </g>
+
+              <!-- Label badge -->
+              <rect x="116" y="14" width="218" height="24" rx="12" fill="#FEF08A" stroke="#22252A" stroke-width="1.8" />
+              <text x="225" y="31" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="18" fill="#22252A">3D Point Cloud + Mesh</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Two Masking-Taped Sticky-Note Mission Cards -->
+        <div class="grid grid-cols-2 gap-8 mt-2">
+          <div class="sticky-note bg-[#FEF9C3] px-7 py-5">
+            <div class="tape tape-coral"></div>
+            <div class="flex items-center gap-3 mb-2">
+              <span class="sketch-pill bg-[#FECACA] px-3 py-0.5 font-hand text-[22px] font-bold">Mission 1</span>
+              <span class="font-hand text-[22px] text-[#DC2626] font-bold">Last outdoor visit!</span>
+            </div>
+            <p class="text-[21px] font-bold leading-snug text-[#22252A]">
+              Capture our main entrance as a <span class="hl-blue">3D digital model</span> using LiDAR scanning or Video-to-3D AI.
+            </p>
+          </div>
+
+          <div class="sticky-note bg-[#E0F2FE] px-7 py-5">
+            <div class="tape tape-mint"></div>
+            <div class="flex items-center gap-3 mb-2">
+              <span class="sketch-pill bg-[#BBF7D0] px-3 py-0.5 font-hand text-[22px] font-bold">Mission 2</span>
+              <span class="font-hand text-[22px] text-[#0F766E] font-bold">Booklet pp. 15–17</span>
+            </div>
+            <p class="text-[21px] font-bold leading-snug text-[#22252A]">
+              Collect <span class="hl-yellow">real observation evidence</span> of entrance problems to plan our redesign.
+            </p>
+          </div>
+        </div>
+
+        <span class="slide-num-stamp">Slide 1 / 9</span>
+      </section>
+
+      <!-- =================================================================
+           SLIDE 2 — THE MATH INSIDE EVERY 3D SCAN
+           ================================================================= -->
+      <section class="slide sketchbook-paper" data-slide="2" aria-label="Slide 2: The Math Inside Every 3D Scan">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-hand text-[20px] font-bold text-[#1D4ED8] uppercase tracking-wide">Part 1 • Coordinates to 3D Models</span>
+            <h1 class="font-hand text-[46px] leading-none font-bold text-[#22252A]">
+              How Does a Computer <span class="hl-yellow">'See' in 3D</span>?
+            </h1>
+          </div>
+          <span class="sketch-pill bg-[#E9D5FF] px-4 py-1 font-hand text-[22px] font-bold">2D → 3D Math</span>
+        </div>
+
+        <!-- Three Connected Horizontal Sketchbook Step Panels -->
+        <div class="grid grid-cols-[1fr_42px_1fr_42px_1fr] items-center my-2">
+
+          <!-- STEP 1: 2D Photo -->
+          <div class="sketch-card p-5 h-[395px] flex flex-col justify-between">
+            <div class="tape tape-blue"></div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="sketch-pill bg-[#BAE6FD] px-3 py-0.5 font-hand text-[22px] font-bold">Step 1: 2D Photo</span>
+                <span class="font-hand text-[22px] font-bold text-[#1D4ED8]">(x, y)</span>
+              </div>
+              <svg viewBox="0 0 320 205" class="w-full h-[200px]" xmlns="http://www.w3.org/2000/svg">
+                <!-- Mini Grid -->
+                <g stroke="#E5DEC9" stroke-width="1">
+                  <line x1="65" y1="25" x2="65" y2="170" /><line x1="115" y1="25" x2="115" y2="170" />
+                  <line x1="165" y1="25" x2="165" y2="170" /><line x1="215" y1="25" x2="215" y2="170" />
+                  <line x1="265" y1="25" x2="265" y2="170" />
+                  <line x1="45" y1="45" x2="285" y2="45" /><line x1="45" y1="90" x2="285" y2="90" />
+                  <line x1="45" y1="135" x2="285" y2="135" />
+                </g>
+                <!-- X & Y Axes -->
+                <line x1="55" y1="165" x2="288" y2="165" stroke="#22252A" stroke-width="3" stroke-linecap="round" />
+                <path d="M 278 158 L 290 165 L 278 172" fill="none" stroke="#22252A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <text x="296" y="171" font-family="Patrick Hand, cursive" font-size="24" font-weight="bold" fill="#22252A">x</text>
+
+                <line x1="65" y1="175" x2="65" y2="20" stroke="#22252A" stroke-width="3" stroke-linecap="round" />
+                <path d="M 58 30 L 65 18 L 72 30" fill="none" stroke="#22252A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+                <text x="44" y="26" font-family="Patrick Hand, cursive" font-size="24" font-weight="bold" fill="#22252A">y</text>
+
+                <!-- Flat 2D Square -->
+                <rect x="115" y="52" width="110" height="84" fill="#BAE6FD" fill-opacity="0.65" stroke="#1D4ED8" stroke-width="3" stroke-linejoin="round" />
+                <circle cx="115" cy="52" r="5.5" fill="#22252A" />
+                <circle cx="225" cy="52" r="5.5" fill="#22252A" />
+                <circle cx="115" cy="136" r="5.5" fill="#22252A" />
+                <circle cx="225" cy="136" r="5.5" fill="#22252A" />
+                <text x="234" y="54" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#1D4ED8">(4, 3)</text>
+                <text x="170" y="102" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="22" font-weight="bold" fill="#22252A">Flat!</text>
+                <text x="170" y="193" text-anchor="middle" font-family="Nunito, sans-serif" font-size="13" font-weight="800" fill="#4B515C">Left–Right (x) &amp; Up–Down (y)</text>
+              </svg>
+            </div>
+            <p class="text-[18px] font-bold leading-snug text-[#22252A] bg-[#F8F5EE] p-3 rounded-xl border-2 border-dashed border-[#22252A]/40">
+              Every dot only has <span class="hl-blue">2 coordinates: (x, y)</span> — left-right &amp; up-down.
+            </p>
+          </div>
+
+          <!-- Connecting Arrow 1 -->
+          <div class="flex justify-center">
+            <svg viewBox="0 0 42 42" class="w-10 h-10" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 4 21 Q 18 16 33 21" fill="none" stroke="#22252A" stroke-width="3.5" stroke-linecap="round" />
+              <path d="M 24 13 L 35 21 L 24 29" fill="none" stroke="#22252A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+
+          <!-- STEP 2: 3D Point Cloud -->
+          <div class="sketch-card-alt p-5 h-[395px] flex flex-col justify-between">
+            <div class="tape tape-coral"></div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="sketch-pill bg-[#FECACA] px-3 py-0.5 font-hand text-[22px] font-bold">Step 2: Point Cloud</span>
+                <span class="font-hand text-[22px] font-bold text-[#DC2626]">(x, y, z)</span>
+              </div>
+              <svg viewBox="0 0 320 205" class="w-full h-[200px]" xmlns="http://www.w3.org/2000/svg">
+                <!-- Origin at (105, 130) -->
+                <!-- X axis -->
+                <line x1="105" y1="130" x2="280" y2="130" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+                <path d="M 271 124 L 282 130 L 271 136" fill="none" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+                <text x="288" y="136" font-family="Patrick Hand, cursive" font-size="22" font-weight="bold" fill="#22252A">x</text>
+
+                <!-- Y axis -->
+                <line x1="105" y1="130" x2="105" y2="18" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+                <path d="M 99 28 L 105 16 L 111 28" fill="none" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+                <text x="86" y="26" font-family="Patrick Hand, cursive" font-size="22" font-weight="bold" fill="#22252A">y</text>
+
+                <!-- BOLD Highlighted Coral/Red Z-Axis popping outward -->
+                <line x1="105" y1="130" x2="36" y2="185" stroke="#FECACA" stroke-width="11" stroke-linecap="round" />
+                <line x1="105" y1="130" x2="36" y2="185" stroke="#DC2626" stroke-width="4" stroke-linecap="round" />
+                <path d="M 48 184 L 34 186 L 39 172" fill="none" stroke="#DC2626" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+                <rect x="64" y="168" width="110" height="26" rx="8" fill="#FECACA" stroke="#DC2626" stroke-width="2" />
+                <text x="119" y="186" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="20" font-weight="bold" fill="#991B1B">DEPTH (z)!</text>
+
+                <!-- Faint dashed cube guide so dots read unmistakably as 3D -->
+                <g stroke="#94A3B8" stroke-width="1.3" stroke-dasharray="4 4" fill="none">
+                  <rect x="148" y="42" width="90" height="72" />
+                  <rect x="122" y="64" width="90" height="72" />
+                  <line x1="148" y1="42" x2="122" y2="64" />
+                  <line x1="238" y1="42" x2="212" y2="64" />
+                  <line x1="238" y1="114" x2="212" y2="136" />
+                </g>
+
+                <!-- Cloud of colored 3D dots -->
+                <circle cx="148" cy="42" r="5" fill="#DC2626" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="193" cy="42" r="4.5" fill="#F59E0B" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="238" cy="42" r="5" fill="#1D4ED8" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="122" cy="64" r="5.5" fill="#DC2626" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="168" cy="64" r="5" fill="#10B981" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="212" cy="64" r="5.5" fill="#1D4ED8" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="122" cy="100" r="5" fill="#F59E0B" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="168" cy="100" r="5.5" fill="#8B5CF6" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="212" cy="100" r="5" fill="#10B981" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="238" cy="80" r="4.5" fill="#F59E0B" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="238" cy="114" r="5" fill="#10B981" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="122" cy="136" r="5.5" fill="#DC2626" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="168" cy="136" r="5" fill="#1D4ED8" stroke="#22252A" stroke-width="1.4" />
+                <circle cx="212" cy="136" r="5.5" fill="#F59E0B" stroke="#22252A" stroke-width="1.4" />
+                <text x="244" y="42" font-family="Patrick Hand, cursive" font-size="18" font-weight="bold" fill="#DC2626">(4,3,2)</text>
+              </svg>
+            </div>
+            <p class="text-[18px] font-bold leading-snug text-[#22252A] bg-[#F8F5EE] p-3 rounded-xl border-2 border-dashed border-[#22252A]/40">
+              Every dot needs <span class="hl-coral">3 coordinates: (x, y, z)</span> — adds <strong>DEPTH</strong>!
+            </p>
+          </div>
+
+          <!-- Connecting Arrow 2 -->
+          <div class="flex justify-center">
+            <svg viewBox="0 0 42 42" class="w-10 h-10" xmlns="http://www.w3.org/2000/svg">
+              <path d="M 4 21 Q 18 16 33 21" fill="none" stroke="#22252A" stroke-width="3.5" stroke-linecap="round" />
+              <path d="M 24 13 L 35 21 L 24 29" fill="none" stroke="#22252A" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+
+          <!-- STEP 3: 3D Mesh -->
+          <div class="sketch-card p-5 h-[395px] flex flex-col justify-between">
+            <div class="tape tape-mint"></div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="sketch-pill bg-[#BBF7D0] px-3 py-0.5 font-hand text-[22px] font-bold">Step 3: 3D Mesh</span>
+                <span class="font-hand text-[22px] font-bold text-[#0F766E]">Triangles!</span>
+              </div>
+              <svg viewBox="0 0 320 205" class="w-full h-[200px]" xmlns="http://www.w3.org/2000/svg">
+                <!-- Shaded 3D Cube constructed from visible flat triangles -->
+                <!-- Top Face (2 triangles) -->
+                <polygon points="105,58 175,30 250,58" fill="#DCFCE7" stroke="#22252A" stroke-width="2.2" stroke-linejoin="round" />
+                <polygon points="105,58 250,58 180,86" fill="#BBF7D0" stroke="#22252A" stroke-width="2.2" stroke-linejoin="round" />
+                <!-- Left Front Face (4 triangles via center vertex 142, 120) -->
+                <polygon points="105,58 180,86 142,120" fill="#BAE6FD" stroke="#22252A" stroke-width="2.2" stroke-linejoin="round" />
+                <polygon points="105,58 142,120 105,152" fill="#E0F2FE" stroke="#22252A" stroke-width="2.2" stroke-linejoin="round" />
+                <polygon points="180,86 180,180 142,120" fill="#7DD3FC" stroke="#22252A" stroke-width="2.2" stroke-linejoin="round" />
+                <polygon points="105,152 142,120 180,180" fill="#BAE6FD" stroke="#22252A" stroke-width="2.2" stroke-linejoin="round" />
+                <!-- Right Side Face (2 triangles) -->
+                <polygon points="180,86 250,58 250,152" fill="#93C5FD" stroke="#22252A" stroke-width="2.2" stroke-linejoin="round" />
+                <polygon points="180,86 250,152 180,180" fill="#60A5FA" stroke="#22252A" stroke-width="2.2" stroke-linejoin="round" />
+
+                <!-- Vertices dots -->
+                <circle cx="105" cy="58" r="4.5" fill="#22252A" />
+                <circle cx="175" cy="30" r="4.5" fill="#22252A" />
+                <circle cx="250" cy="58" r="4.5" fill="#22252A" />
+                <circle cx="180" cy="86" r="4.5" fill="#22252A" />
+                <circle cx="142" cy="120" r="4.5" fill="#DC2626" />
+                <circle cx="105" cy="152" r="4.5" fill="#22252A" />
+                <circle cx="180" cy="180" r="4.5" fill="#22252A" />
+                <circle cx="250" cy="152" r="4.5" fill="#22252A" />
+
+                <!-- Callout pointer -->
+                <path d="M 60 112 Q 86 112 122 106" fill="none" stroke="#DC2626" stroke-width="2.2" stroke-dasharray="4 3" />
+                <text x="16" y="106" font-family="Patrick Hand, cursive" font-size="18" font-weight="bold" fill="#DC2626">Flat</text>
+                <text x="10" y="124" font-family="Patrick Hand, cursive" font-size="18" font-weight="bold" fill="#DC2626">triangle!</text>
+              </svg>
+            </div>
+            <p class="text-[18px] font-bold leading-snug text-[#22252A] bg-[#F8F5EE] p-3 rounded-xl border-2 border-dashed border-[#22252A]/40">
+              Thousands of <span class="hl-mint">(x, y, z) dots connect into triangles</span> to build a 3D surface.
+            </p>
+          </div>
+        </div>
+
+        <!-- Bottom Interactive Quick Check Prompt -->
+        <div class="sketch-card bg-[#FFFBEB] px-6 py-3.5 flex items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <span class="sketch-pill bg-[#FEF08A] px-3 py-1 font-hand text-[22px] font-bold shrink-0">Quick Check!</span>
+            <p class="text-[19px] font-extrabold text-[#22252A]">
+              A normal photo already knows <span class="text-[#1D4ED8]">x</span> and <span class="text-[#1D4ED8]">y</span>. What is the <u>ONE missing number</u> a 3D scanner has to calculate?
+            </p>
+          </div>
+          <div class="flex items-center gap-3 shrink-0">
+            <span id="slide2-answer" class="hidden sketch-pill bg-[#FEF08A] px-5 py-1.5 font-hand text-[28px] font-bold text-[#DC2626]">
+              Depth (z)!
+            </span>
+            <button id="slide2-reveal-btn" type="button" class="sketch-btn bg-[#BAE6FD] px-5 py-2 font-hand text-[22px] font-bold text-[#22252A]">
+              Reveal Answer
+            </button>
+          </div>
+        </div>
+
+        <span class="slide-num-stamp">Slide 2 / 9</span>
+      </section>
+
+      <!-- =================================================================
+           SLIDE 3 — TWO MECHANISMS TO FIND DEPTH (z)
+           ================================================================= -->
+      <section class="slide sketchbook-paper" data-slide="3" aria-label="Slide 3: Two Mechanisms to Find Depth z">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-hand text-[20px] font-bold text-[#0F766E] uppercase tracking-wide">Part 1 • Scanning Hardware vs. Phone Video AI</span>
+            <h1 class="font-hand text-[46px] leading-none font-bold text-[#22252A]">
+              How Do Our Devices Calculate <span class="hl-coral">Depth (z)</span>?
+            </h1>
+          </div>
+          <span class="sketch-pill bg-[#FEF08A] px-4 py-1 font-hand text-[22px] font-bold">2 Ways to Solve z</span>
+        </div>
+
+        <!-- Two Side-by-Side Sketchbook Cards -->
+        <div class="grid grid-cols-2 gap-8 flex-1 mt-4 mb-1">
+
+          <!-- CARD A: LiDAR Scanner -->
+          <div class="sketch-card p-6 flex flex-col justify-between">
+            <div class="tape tape-mint"></div>
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <h2 class="font-hand text-[32px] leading-tight font-bold text-[#22252A]">
+                  Mechanism A: <span class="hl-mint">LiDAR Scanner</span>
+                </h2>
+                <span class="font-hand text-[20px] text-[#0F766E] font-bold">(Light Bounce)</span>
+              </div>
+
+              <!-- Hand-drawn SVG: iPad laser bounce to brick wall -->
+              <div class="bg-[#F8F5EE] border-2 border-[#22252A] rounded-2xl p-2 mb-4">
+                <svg viewBox="0 0 500 185" class="w-full h-[182px]" xmlns="http://www.w3.org/2000/svg">
+                  <!-- iPad on left -->
+                  <g transform="translate(26, 40)">
+                    <rect x="0" y="0" width="66" height="100" rx="9" fill="#CBD5E1" stroke="#22252A" stroke-width="2.6" />
+                    <rect x="7" y="10" width="52" height="78" rx="4" fill="#E0F2FE" stroke="#22252A" stroke-width="1.8" />
+                    <circle cx="56" cy="24" r="5" fill="#22252A" />
+                    <circle cx="56" cy="24" r="2.2" fill="#EF4444" />
+                    <text x="33" y="118" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#22252A">iPad LiDAR</text>
+                  </g>
+
+                  <!-- Laser forward ray -->
+                  <line x1="94" y1="64" x2="378" y2="64" stroke="#DC2626" stroke-width="3.2" stroke-dasharray="9 6" />
+                  <path d="M 366 56 L 381 64 L 366 72" fill="none" stroke="#DC2626" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
+                  <text x="236" y="54" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#DC2626">Invisible light pulse →</text>
+
+                  <!-- Laser return bounce ray -->
+                  <line x1="382" y1="96" x2="98" y2="96" stroke="#F59E0B" stroke-width="3.2" stroke-dasharray="9 6" />
+                  <path d="M 110 88 L 95 96 L 110 104" fill="none" stroke="#F59E0B" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" />
+                  <text x="236" y="116" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#B45309">← Bounces back (time t)</text>
+
+                  <!-- Stopwatch icon -->
+                  <g transform="translate(216, 12)">
+                    <circle cx="20" cy="20" r="14" fill="#FEF08A" stroke="#22252A" stroke-width="2" />
+                    <line x1="20" y1="20" x2="20" y2="11" stroke="#22252A" stroke-width="2" stroke-linecap="round" />
+                    <line x1="20" y1="20" x2="27" y2="23" stroke="#DC2626" stroke-width="2" stroke-linecap="round" />
+                    <rect x="16" y="2" width="8" height="4" fill="#22252A" rx="1" />
+                  </g>
+
+                  <!-- Brick Entrance Wall on right -->
+                  <g transform="translate(384, 20)">
+                    <rect x="0" y="0" width="88" height="132" rx="4" fill="#FED7AA" stroke="#22252A" stroke-width="2.6" />
+                    <!-- Brick mortar lines -->
+                    <line x1="0" y1="26" x2="88" y2="26" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="0" y1="52" x2="88" y2="52" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="0" y1="78" x2="88" y2="78" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="0" y1="104" x2="88" y2="104" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="44" y1="0" x2="44" y2="26" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="24" y1="26" x2="24" y2="52" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="64" y1="26" x2="64" y2="52" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="44" y1="52" x2="44" y2="78" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="24" y1="78" x2="24" y2="104" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="64" y1="78" x2="64" y2="104" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="44" y1="104" x2="44" y2="132" stroke="#22252A" stroke-width="1.5" />
+                    <!-- Impact star -->
+                    <circle cx="0" cy="80" r="6" fill="#EF4444" stroke="#22252A" stroke-width="1.5" />
+                    <text x="44" y="152" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#22252A">Entrance Wall</text>
+                  </g>
+
+                  <!-- Distance z bracket at bottom -->
+                  <line x1="94" y1="154" x2="382" y2="154" stroke="#0F766E" stroke-width="2.5" />
+                  <line x1="94" y1="146" x2="94" y2="162" stroke="#0F766E" stroke-width="2.5" />
+                  <line x1="382" y1="146" x2="382" y2="162" stroke="#0F766E" stroke-width="2.5" />
+                  <rect x="192" y="140" width="94" height="28" rx="8" fill="#BBF7D0" stroke="#0F766E" stroke-width="2" />
+                  <text x="239" y="160" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="21" font-weight="bold" fill="#0F766E">Depth = z</text>
+                </svg>
+              </div>
+
+              <p class="text-[20px] font-bold leading-snug text-[#22252A] mb-4">
+                • Shoots invisible light pulses at the wall and times how fast they bounce back.
+              </p>
+
+              <!-- Hand-drawn Formula Box -->
+              <div class="bg-[#ECFDF5] border-[2.5px] border-[#0F766E] rounded-2xl px-4 py-3 flex items-center justify-center gap-4 shadow-[2px_3px_0px_#0F766E]">
+                <span class="font-hand text-[28px] font-bold text-[#22252A]">Depth (z) =</span>
+                <div class="flex flex-col items-center">
+                  <span class="font-hand text-[24px] font-bold text-[#0F766E] px-2 border-b-[2.5px] border-[#22252A]">Speed of light × Time (t)</span>
+                  <span class="font-hand text-[25px] font-bold text-[#22252A]">2</span>
+                </div>
+                <span class="text-[14px] font-extrabold text-[#4B515C] leading-tight">(divide by 2:<br/>there &amp; back!)</span>
+              </div>
+            </div>
+
+            <div class="flex justify-end mt-3">
+              <span class="sketch-pill bg-[#E2E8F0] px-4 py-1 font-hand text-[19px] font-bold text-[#334155]">
+                Note: Needs LiDAR Pro hardware
+              </span>
+            </div>
+          </div>
+
+          <!-- CARD B: Video-to-3D AI (Photogrammetry) -->
+          <div class="sketch-card-alt p-6 flex flex-col justify-between">
+            <div class="tape tape-blue"></div>
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <h2 class="font-hand text-[32px] leading-tight font-bold text-[#22252A]">
+                  Mechanism B: <span class="hl-blue">Video-to-3D AI</span>
+                </h2>
+                <span class="font-hand text-[20px] text-[#1D4ED8] font-bold">(Photogrammetry)</span>
+              </div>
+
+              <!-- Hand-drawn SVG: Two camera positions forming a triangle to roof corner -->
+              <div class="bg-[#F8F5EE] border-2 border-[#22252A] rounded-2xl p-2 mb-4">
+                <svg viewBox="0 0 500 185" class="w-full h-[182px]" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Highlighted Triangle Fill -->
+                  <polygon points="104,132 356,132 246,32" fill="#BAE6FD" fill-opacity="0.42" />
+
+                  <!-- Sketched Building Pillar at top -->
+                  <g transform="translate(230, 26)">
+                    <rect x="0" y="6" width="54" height="58" fill="#E2E8F0" stroke="#22252A" stroke-width="2.2" />
+                    <path d="M -8 6 L 62 6 L 56 -6 L -2 -6 Z" fill="#CBD5E1" stroke="#22252A" stroke-width="2.2" />
+                  </g>
+
+                  <!-- Target Corner Dot -->
+                  <circle cx="246" cy="32" r="6.5" fill="#DC2626" stroke="#22252A" stroke-width="2" />
+                  <rect x="298" y="16" width="166" height="32" rx="10" fill="#FECACA" stroke="#DC2626" stroke-width="2" />
+                  <text x="381" y="37" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#991B1B">Same corner (x, y, z)</text>
+                  <line x1="254" y1="32" x2="296" y2="32" stroke="#DC2626" stroke-width="2" stroke-dasharray="4 3" />
+
+                  <!-- Sightlines from Spot A & Spot B to Corner -->
+                  <line x1="104" y1="132" x2="246" y2="32" stroke="#1D4ED8" stroke-width="2.8" stroke-dasharray="7 5" />
+                  <line x1="356" y1="132" x2="246" y2="32" stroke="#1D4ED8" stroke-width="2.8" stroke-dasharray="7 5" />
+
+                  <!-- Angle Arcs at A and B -->
+                  <path d="M 142 132 A 38 38 0 0 0 135 110" fill="none" stroke="#DC2626" stroke-width="2.6" />
+                  <text x="150" y="122" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#DC2626">∠A</text>
+                  <path d="M 318 132 A 38 38 0 0 1 327 106" fill="none" stroke="#DC2626" stroke-width="2.6" />
+                  <text x="296" y="122" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#DC2626">∠B</text>
+
+                  <!-- Base Line d -->
+                  <line x1="104" y1="132" x2="356" y2="132" stroke="#22252A" stroke-width="3.2" />
+                  <rect x="174" y="120" width="112" height="26" rx="8" fill="#FEF08A" stroke="#22252A" stroke-width="1.8" />
+                  <text x="230" y="138" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#22252A">Walk base d</text>
+
+                  <!-- Camera Icon at Spot A -->
+                  <g transform="translate(68, 120)">
+                    <rect x="0" y="6" width="38" height="24" rx="5" fill="#FFFDF9" stroke="#22252A" stroke-width="2.2" />
+                    <circle cx="19" cy="18" r="7" fill="#BAE6FD" stroke="#22252A" stroke-width="2" />
+                    <rect x="11" y="1" width="16" height="6" rx="2" fill="#22252A" />
+                    <text x="19" y="48" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#22252A">Spot A</text>
+                  </g>
+
+                  <!-- Camera Icon at Spot B -->
+                  <g transform="translate(356, 120)">
+                    <rect x="0" y="6" width="38" height="24" rx="5" fill="#FFFDF9" stroke="#22252A" stroke-width="2.2" />
+                    <circle cx="19" cy="18" r="7" fill="#BAE6FD" stroke="#22252A" stroke-width="2" />
+                    <rect x="11" y="1" width="16" height="6" rx="2" fill="#22252A" />
+                    <text x="19" y="48" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#22252A">Spot B</text>
+                  </g>
+                </svg>
+              </div>
+
+              <p class="text-[19px] font-bold leading-snug text-[#22252A] mb-3">
+                • Works on <span class="hl-blue">ANY phone or iPad!</span> Walk while filming → AI spots the <strong>SAME corner</strong> from 2+ angles → solves a <strong>TRIANGLE</strong> for <span class="text-[#1D4ED8]">(x, y, z)</span>.
+              </p>
+            </div>
+
+            <!-- Yellow Sticky Note Connection -->
+            <div class="sticky-note bg-[#FEF08A] px-4 py-3 flex items-center gap-3">
+              <span class="text-[26px]" aria-hidden="true">👀</span>
+              <p class="font-hand text-[22px] leading-tight font-bold text-[#22252A]">
+                Same triangle math as our Lesson 3 Inclinometer — and how your two eyes judge distance!
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <span class="slide-num-stamp">Slide 3 / 9</span>
+      </section>
+
+      <!-- =================================================================
+           SLIDE 4 — STUDENT DEDUCTION CHALLENGE: "BREAK THE MATH!"
+           ================================================================= -->
+      <section class="slide sketchbook-paper" data-slide="4" aria-label="Slide 4: Student Deduction Challenge">
+        <!-- Header + Reveal All / Hide All Buttons -->
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <h1 class="font-hand text-[44px] leading-none font-bold text-[#22252A]">
+              Engineer's Challenge: <span class="hl-coral">WHY</span> Do These 5 Rules Exist?
+            </h1>
+            <p class="text-[17px] font-bold text-[#4B515C] mt-1">
+              Use <span class="text-[#1D4ED8] font-extrabold">(x, y, z) coordinates</span>, <span class="text-[#0F766E] font-extrabold">Light Bounce</span>, or <span class="text-[#DC2626] font-extrabold">Triangles</span> to think of the math reason first! Click each card to check.
+            </p>
+          </div>
+          <div class="flex items-center gap-2.5 shrink-0 pt-1 no-print">
+            <button id="reveal-all-btn" type="button" class="sketch-btn bg-[#BBF7D0] px-4 py-1.5 font-hand text-[20px] font-bold text-[#22252A]">
+              Reveal All
+            </button>
+            <button id="hide-all-btn" type="button" class="sketch-btn bg-[#F1F5F9] px-4 py-1.5 font-hand text-[20px] font-bold text-[#22252A]">
+              Hide All
+            </button>
+          </div>
+        </div>
+
+        <!-- 5 Interactive Deduction Cards: 3 on top row, 2 centered on bottom row -->
+        <div class="flex flex-col gap-4 mt-2 flex-1 justify-center">
+
+          <!-- TOP ROW (3 cards) -->
+          <div class="grid grid-cols-3 gap-5">
+
+            <!-- Card 1 -->
+            <div class="sketch-card deduction-card p-4 flex flex-col justify-between min-h-[245px]" tabindex="0" role="button" aria-expanded="false">
+              <div class="tape tape-blue"></div>
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <!-- Mini Icon 1: Walking Arc -->
+                  <svg viewBox="0 0 54 54" class="w-12 h-12 shrink-0" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="50" height="50" rx="12" fill="#E0F2FE" stroke="#22252A" stroke-width="2" />
+                    <path d="M 10 38 Q 27 24 44 38" fill="none" stroke="#1D4ED8" stroke-width="3" stroke-dasharray="4 3" />
+                    <circle cx="12" cy="36" r="4" fill="#1D4ED8" />
+                    <circle cx="42" cy="36" r="4" fill="#1D4ED8" />
+                    <polygon points="27,10 12,36 42,36" fill="none" stroke="#DC2626" stroke-width="1.8" />
+                    <circle cx="27" cy="11" r="3.5" fill="#DC2626" />
+                  </svg>
+                  <h2 class="font-hand text-[23px] leading-tight font-bold text-[#22252A]">
+                    1. Walk in an arc — DON'T stand still &amp; spin.
+                  </h2>
+                </div>
+                <div class="bg-[#F8F5EE] border-2 border-dashed border-[#1D4ED8] rounded-xl px-3 py-1.5 text-[15px] font-bold text-[#1E3A8A]">
+                  <span class="uppercase text-[12px] font-black tracking-wide bg-[#BAE6FD] px-1.5 py-0.5 rounded mr-1">Hint (Triangle)</span>
+                  If you don't move, what is the triangle base length <em>d</em>?
+                </div>
+              </div>
+              <div class="mt-2.5">
+                <div class="reveal-prompt text-center py-2.5 rounded-xl bg-[#FEF9C3] border-2 border-[#22252A] font-hand text-[19px] font-bold text-[#22252A]">
+                  👆 Click to reveal math reason
+                </div>
+                <div class="answer-box bg-[#BBF7D0] border-2 border-[#22252A] rounded-xl px-3 py-2 text-[14.5px] font-extrabold leading-snug text-[#14532D]">
+                  If <strong>d = 0</strong>, you <u>CANNOT form a triangle</u>! Without 2 viewpoints, AI cannot calculate depth (z).
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="sketch-card-alt deduction-card p-4 flex flex-col justify-between min-h-[245px]" tabindex="0" role="button" aria-expanded="false">
+              <div class="tape tape-coral"></div>
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <!-- Mini Icon 2: Moving person ghost -->
+                  <svg viewBox="0 0 54 54" class="w-12 h-12 shrink-0" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="50" height="50" rx="12" fill="#FEE2E2" stroke="#22252A" stroke-width="2" />
+                    <!-- Faint ghost trail -->
+                    <circle cx="17" cy="18" r="4.5" fill="none" stroke="#94A3B8" stroke-width="2" stroke-dasharray="2 2" />
+                    <line x1="17" y1="23" x2="17" y2="36" stroke="#94A3B8" stroke-width="2" stroke-dasharray="2 2" />
+                    <!-- Walking figure -->
+                    <circle cx="33" cy="17" r="5" fill="#FFFDF9" stroke="#22252A" stroke-width="2.2" />
+                    <line x1="33" y1="22" x2="33" y2="36" stroke="#22252A" stroke-width="2.2" />
+                    <line x1="33" y1="26" x2="25" y2="31" stroke="#22252A" stroke-width="2.2" />
+                    <line x1="33" y1="26" x2="41" y2="30" stroke="#22252A" stroke-width="2.2" />
+                    <line x1="33" y1="36" x2="27" y2="45" stroke="#22252A" stroke-width="2.2" />
+                    <line x1="33" y1="36" x2="40" y2="45" stroke="#22252A" stroke-width="2.2" />
+                    <!-- Stop slash -->
+                    <line x1="9" y1="9" x2="45" y2="45" stroke="#DC2626" stroke-width="3" stroke-linecap="round" opacity="0.75" />
+                  </svg>
+                  <h2 class="font-hand text-[23px] leading-tight font-bold text-[#22252A]">
+                    2. Pause for walkers — DON'T film moving people.
+                  </h2>
+                </div>
+                <div class="bg-[#F8F5EE] border-2 border-dashed border-[#DC2626] rounded-xl px-3 py-1.5 text-[15px] font-bold text-[#7F1D1D]">
+                  <span class="uppercase text-[12px] font-black tracking-wide bg-[#FECACA] px-1.5 py-0.5 rounded mr-1">Hint (Coords)</span>
+                  Does a walking student stay at one (x, y, z) point?
+                </div>
+              </div>
+              <div class="mt-2.5">
+                <div class="reveal-prompt text-center py-2.5 rounded-xl bg-[#FEF9C3] border-2 border-[#22252A] font-hand text-[19px] font-bold text-[#22252A]">
+                  👆 Click to reveal math reason
+                </div>
+                <div class="answer-box bg-[#BBF7D0] border-2 border-[#22252A] rounded-xl px-3 py-2 text-[14.5px] font-extrabold leading-snug text-[#14532D]">
+                  A moving person has <strong>different (x, y, z)</strong> in every frame! The math breaks and creates floating <strong>'ghost blobs'</strong>.
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="sketch-card deduction-card p-4 flex flex-col justify-between min-h-[245px]" tabindex="0" role="button" aria-expanded="false">
+              <div class="tape tape-lavender"></div>
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <!-- Mini Icon 3: Glass & Bouncing Ray -->
+                  <svg viewBox="0 0 54 54" class="w-12 h-12 shrink-0" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="50" height="50" rx="12" fill="#F3E8FF" stroke="#22252A" stroke-width="2" />
+                    <!-- Glass pane -->
+                    <rect x="24" y="8" width="8" height="38" fill="#BAE6FD" stroke="#22252A" stroke-width="2" />
+                    <!-- Ray hitting & bouncing away -->
+                    <line x1="7" y1="36" x2="24" y2="24" stroke="#DC2626" stroke-width="2.5" />
+                    <line x1="24" y1="24" x2="10" y2="12" stroke="#DC2626" stroke-width="2.5" stroke-dasharray="3 2" />
+                    <line x1="32" y1="24" x2="46" y2="18" stroke="#0284C7" stroke-width="2" stroke-dasharray="3 2" />
+                    <text x="37" y="42" font-family="Patrick Hand, cursive" font-size="16" font-weight="bold" fill="#DC2626">?</text>
+                  </svg>
+                  <h2 class="font-hand text-[23px] leading-tight font-bold text-[#22252A]">
+                    3. Avoid shooting straight at glass or mirrors.
+                  </h2>
+                </div>
+                <div class="bg-[#F8F5EE] border-2 border-dashed border-[#7E22CE] rounded-xl px-3 py-1.5 text-[15px] font-bold text-[#581C87]">
+                  <span class="uppercase text-[12px] font-black tracking-wide bg-[#E9D5FF] px-1.5 py-0.5 rounded mr-1">Hint (Light)</span>
+                  What happens to a laser beam or reflection on glass?
+                </div>
+              </div>
+              <div class="mt-2.5">
+                <div class="reveal-prompt text-center py-2.5 rounded-xl bg-[#FEF9C3] border-2 border-[#22252A] font-hand text-[19px] font-bold text-[#22252A]">
+                  👆 Click to reveal math reason
+                </div>
+                <div class="answer-box bg-[#BBF7D0] border-2 border-[#22252A] rounded-xl px-3 py-2 text-[14px] font-extrabold leading-snug text-[#14532D]">
+                  <strong>LiDAR:</strong> light passes through/bounces away → wrong t, wrong z. <strong>AI:</strong> reflections shift → fake (x, y, z) behind the wall.
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- BOTTOM ROW (2 centered cards) -->
+          <div class="grid grid-cols-2 gap-6 w-[72%] mx-auto">
+
+            <!-- Card 4 -->
+            <div class="sketch-card-alt deduction-card p-4 flex flex-col justify-between min-h-[242px]" tabindex="0" role="button" aria-expanded="false">
+              <div class="tape tape-yellow"></div>
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <!-- Mini Icon 4: Motion Blur -->
+                  <svg viewBox="0 0 54 54" class="w-12 h-12 shrink-0" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="50" height="50" rx="12" fill="#FEF9C3" stroke="#22252A" stroke-width="2" />
+                    <line x1="8" y1="20" x2="20" y2="20" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="6" y1="28" x2="18" y2="28" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="10" y1="36" x2="20" y2="36" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" />
+                    <!-- Camera icon -->
+                    <rect x="22" y="16" width="24" height="22" rx="4" fill="#FFFDF9" stroke="#22252A" stroke-width="2.2" />
+                    <circle cx="34" cy="27" r="6" fill="#BAE6FD" stroke="#22252A" stroke-width="2" />
+                    <text x="34" y="47" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="13" font-weight="bold" fill="#B45309">SLOW!</text>
+                  </svg>
+                  <h2 class="font-hand text-[23px] leading-tight font-bold text-[#22252A]">
+                    4. Move at half speed — DON'T pan fast.
+                  </h2>
+                </div>
+                <div class="bg-[#F8F5EE] border-2 border-dashed border-[#B45309] rounded-xl px-3 py-1.5 text-[15px] font-bold text-[#78350F]">
+                  <span class="uppercase text-[12px] font-black tracking-wide bg-[#FEF08A] px-1.5 py-0.5 rounded mr-1">Hint (Matching)</span>
+                  What does motion blur do to sharp wall corners?
+                </div>
+              </div>
+              <div class="mt-2.5">
+                <div class="reveal-prompt text-center py-2.5 rounded-xl bg-[#FEF9C3] border-2 border-[#22252A] font-hand text-[19px] font-bold text-[#22252A]">
+                  👆 Click to reveal math reason
+                </div>
+                <div class="answer-box bg-[#BBF7D0] border-2 border-[#22252A] rounded-xl px-3 py-2 text-[14.5px] font-extrabold leading-snug text-[#14532D]">
+                  AI must match the <strong>EXACT same corner</strong> across frames. Blur hides corners → missing (x, y, z) dots (<strong>holes</strong> in the model).
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div class="sketch-card deduction-card p-4 flex flex-col justify-between min-h-[242px]" tabindex="0" role="button" aria-expanded="false">
+              <div class="tape tape-mint"></div>
+              <div>
+                <div class="flex items-center gap-3 mb-2">
+                  <!-- Mini Icon 5: 1 m Stick & Similar Triangles -->
+                  <svg viewBox="0 0 54 54" class="w-12 h-12 shrink-0" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="50" height="50" rx="12" fill="#DCFCE7" stroke="#22252A" stroke-width="2" />
+                    <!-- Ruler stick -->
+                    <rect x="11" y="9" width="10" height="36" rx="2" fill="#FEF08A" stroke="#22252A" stroke-width="2" />
+                    <line x1="11" y1="18" x2="16" y2="18" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="11" y1="27" x2="17" y2="27" stroke="#22252A" stroke-width="1.5" />
+                    <line x1="11" y1="36" x2="16" y2="36" stroke="#22252A" stroke-width="1.5" />
+                    <!-- Small & big similar triangles -->
+                    <polygon points="27,42 35,42 31,32" fill="#BAE6FD" stroke="#22252A" stroke-width="1.6" />
+                    <polygon points="36,42 48,42 42,16" fill="#BBF7D0" stroke="#22252A" stroke-width="1.8" />
+                    <text x="36" y="14" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="14" font-weight="bold" fill="#0F766E">1 m</text>
+                  </svg>
+                  <h2 class="font-hand text-[23px] leading-tight font-bold text-[#22252A]">
+                    5. Put a 1 m stick in the video.
+                  </h2>
+                </div>
+                <div class="bg-[#F8F5EE] border-2 border-dashed border-[#0F766E] rounded-xl px-3 py-1.5 text-[15px] font-bold text-[#134E4A]">
+                  <span class="uppercase text-[12px] font-black tracking-wide bg-[#BBF7D0] px-1.5 py-0.5 rounded mr-1">Hint (Similar Δ)</span>
+                  Do angles alone tell you SHAPE or REAL SIZE in meters?
+                </div>
+              </div>
+              <div class="mt-2.5">
+                <div class="reveal-prompt text-center py-2.5 rounded-xl bg-[#FEF9C3] border-2 border-[#22252A] font-hand text-[19px] font-bold text-[#22252A]">
+                  👆 Click to reveal math reason
+                </div>
+                <div class="answer-box bg-[#BBF7D0] border-2 border-[#22252A] rounded-xl px-3 py-2 text-[14.5px] font-extrabold leading-snug text-[#14532D]">
+                  Angles only build <strong>SIMILAR triangles</strong> (right ratio, unknown size!). Without 1 real length, AI can't tell <strong>30 cm from 6 m</strong>.
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <span class="slide-num-stamp">Slide 4 / 9</span>
+      </section>
+
+      <!-- =================================================================
+           SLIDE 5 — FINAL ENTRANCE VISIT: 4 GROUP ROLES (15 MINS)
+           ================================================================= -->
+      <section class="slide sketchbook-paper" data-slide="5" aria-label="Slide 5: Main Entrance Mission 4 Group Roles">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-hand text-[20px] font-bold text-[#DC2626] uppercase tracking-wide">Outdoor Fieldwork • Copy Into Booklet p. 16</span>
+            <h1 class="font-hand text-[46px] leading-none font-bold text-[#22252A]">
+              Main Entrance Mission: <span class="hl-yellow">Divide &amp; Conquer!</span> (15 mins)
+            </h1>
+          </div>
+          <span class="sketch-pill bg-[#FECACA] px-4 py-1 font-hand text-[22px] font-bold">4 Fixed Roles</span>
+        </div>
+
+        <!-- 2x2 Grid of 4 Handmade Role Cards with Stick-Figure SVGs -->
+        <div class="grid grid-cols-2 gap-6 my-2 flex-1">
+
+          <!-- Job 1 -->
+          <div class="sketch-card p-5 flex items-center gap-5">
+            <div class="tape tape-blue tape-left"></div>
+            <svg viewBox="0 0 118 118" class="w-[112px] h-[112px] shrink-0" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="4" width="110" height="110" rx="18" fill="#E0F2FE" stroke="#22252A" stroke-width="2.4" />
+              <!-- Walking arc arrow -->
+              <path d="M 16 96 Q 59 108 102 92" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-dasharray="5 4" />
+              <path d="M 94 87 L 104 92 L 96 99" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-linecap="round" />
+              <!-- Stick figure holding phone -->
+              <circle cx="48" cy="34" r="12" fill="#FFFDF9" stroke="#22252A" stroke-width="2.5" />
+              <circle cx="52" cy="32" r="1.8" fill="#22252A" />
+              <path d="M 46 39 Q 51 42 54 38" fill="none" stroke="#22252A" stroke-width="1.8" stroke-linecap="round" />
+              <line x1="48" y1="46" x2="48" y2="76" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <line x1="48" y1="56" x2="72" y2="52" stroke="#22252A" stroke-width="2.6" stroke-linecap="round" />
+              <line x1="48" y1="76" x2="36" y2="94" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <line x1="48" y1="76" x2="60" y2="93" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <!-- Phone / iPad -->
+              <rect x="72" y="38" width="14" height="24" rx="3" fill="#FEF08A" stroke="#22252A" stroke-width="2.2" />
+              <!-- Camera FOV rays -->
+              <line x1="88" y1="44" x2="106" y2="30" stroke="#DC2626" stroke-width="2" stroke-dasharray="3 2" />
+              <line x1="88" y1="54" x2="106" y2="62" stroke="#DC2626" stroke-width="2" stroke-dasharray="3 2" />
+            </svg>
+            <div>
+              <span class="sketch-pill bg-[#BAE6FD] px-3 py-0.5 font-hand text-[21px] font-bold">Job 1</span>
+              <h2 class="font-hand text-[29px] leading-tight font-bold text-[#22252A] mt-1">Camera / Scanner Operator</h2>
+              <p class="text-[17px] font-bold text-[#374151] leading-snug mt-1">
+                Walks <strong>slowly in a smooth arc</strong> — waist height first, then angled slightly up to catch the roof &amp; canopy.
+              </p>
+            </div>
+          </div>
+
+          <!-- Job 2 -->
+          <div class="sketch-card-alt p-5 flex items-center gap-5">
+            <div class="tape tape-coral tape-right"></div>
+            <svg viewBox="0 0 118 118" class="w-[112px] h-[112px] shrink-0" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="4" width="110" height="110" rx="18" fill="#FEE2E2" stroke="#22252A" stroke-width="2.4" />
+              <!-- Speech bubble -->
+              <rect x="46" y="10" width="62" height="24" rx="9" fill="#FEF08A" stroke="#22252A" stroke-width="2" />
+              <text x="77" y="27" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="14" font-weight="bold" fill="#22252A">Slow down!</text>
+              <!-- Stick figure pointing to step -->
+              <circle cx="38" cy="40" r="11" fill="#FFFDF9" stroke="#22252A" stroke-width="2.5" />
+              <circle cx="42" cy="39" r="1.8" fill="#22252A" />
+              <line x1="38" y1="51" x2="38" y2="79" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <line x1="38" y1="60" x2="66" y2="66" stroke="#22252A" stroke-width="2.6" stroke-linecap="round" />
+              <line x1="38" y1="60" x2="22" y2="54" stroke="#22252A" stroke-width="2.6" stroke-linecap="round" />
+              <line x1="38" y1="79" x2="28" y2="98" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <line x1="38" y1="79" x2="48" y2="98" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <!-- Warning step hazard -->
+              <polygon points="74,98 104,98 104,80 86,80 86,90 74,90" fill="#CBD5E1" stroke="#22252A" stroke-width="2.2" />
+              <text x="88" y="72" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="22" font-weight="bold" fill="#DC2626">!</text>
+            </svg>
+            <div>
+              <span class="sketch-pill bg-[#FECACA] px-3 py-0.5 font-hand text-[21px] font-bold">Job 2</span>
+              <h2 class="font-hand text-[29px] leading-tight font-bold text-[#22252A] mt-1">Safety Spotter</h2>
+              <p class="text-[17px] font-bold text-[#374151] leading-snug mt-1">
+                Walks beside the operator watching for <strong>steps, pillars, and passersby</strong>; calls out <em>"Slow down!"</em> when turning.
+              </p>
+            </div>
+          </div>
+
+          <!-- Job 3 -->
+          <div class="sketch-card-alt p-5 flex items-center gap-5">
+            <div class="tape tape-mint tape-left"></div>
+            <svg viewBox="0 0 118 118" class="w-[112px] h-[112px] shrink-0" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="4" width="110" height="110" rx="18" fill="#DCFCE7" stroke="#22252A" stroke-width="2.4" />
+              <!-- Stick figure holding 1 m stick -->
+              <circle cx="42" cy="36" r="11" fill="#FFFDF9" stroke="#22252A" stroke-width="2.5" />
+              <circle cx="46" cy="35" r="1.8" fill="#22252A" />
+              <line x1="42" y1="47" x2="42" y2="78" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <line x1="42" y1="58" x2="66" y2="60" stroke="#22252A" stroke-width="2.6" stroke-linecap="round" />
+              <line x1="42" y1="58" x2="26" y2="66" stroke="#22252A" stroke-width="2.6" stroke-linecap="round" />
+              <line x1="42" y1="78" x2="32" y2="98" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <line x1="42" y1="78" x2="52" y2="98" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <!-- Bold 1m meter stick -->
+              <rect x="68" y="20" width="14" height="78" rx="3" fill="#FEF08A" stroke="#22252A" stroke-width="2.2" />
+              <line x1="68" y1="36" x2="76" y2="36" stroke="#22252A" stroke-width="1.6" />
+              <line x1="68" y1="52" x2="76" y2="52" stroke="#22252A" stroke-width="1.6" />
+              <line x1="68" y1="68" x2="76" y2="68" stroke="#22252A" stroke-width="1.6" />
+              <line x1="68" y1="84" x2="76" y2="84" stroke="#22252A" stroke-width="1.6" />
+              <text x="98" y="62" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="22" font-weight="bold" fill="#0F766E">1 m</text>
+              <!-- Mini sun glare icon -->
+              <circle cx="22" cy="22" r="7" fill="#FDE047" stroke="#22252A" stroke-width="1.6" />
+            </svg>
+            <div>
+              <span class="sketch-pill bg-[#BBF7D0] px-3 py-0.5 font-hand text-[21px] font-bold">Job 3</span>
+              <h2 class="font-hand text-[29px] leading-tight font-bold text-[#22252A] mt-1">Scale &amp; Assumptions Checker</h2>
+              <p class="text-[17px] font-bold text-[#374151] leading-snug mt-1">
+                Places the <strong>1 m meter stick</strong> clearly in frame; writes down interference (glare, glass, crowds) for our <em>Assumptions Log</em>.
+              </p>
+            </div>
+          </div>
+
+          <!-- Job 4 -->
+          <div class="sketch-card p-5 flex items-center gap-5">
+            <div class="tape tape-lavender tape-right"></div>
+            <svg viewBox="0 0 118 118" class="w-[112px] h-[112px] shrink-0" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="4" width="110" height="110" rx="18" fill="#F3E8FF" stroke="#22252A" stroke-width="2.4" />
+              <!-- Observer with notepad & magnifying glass -->
+              <circle cx="38" cy="38" r="11" fill="#FFFDF9" stroke="#22252A" stroke-width="2.5" />
+              <circle cx="42" cy="37" r="1.8" fill="#22252A" />
+              <line x1="38" y1="49" x2="38" y2="79" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <line x1="38" y1="59" x2="58" y2="54" stroke="#22252A" stroke-width="2.6" stroke-linecap="round" />
+              <line x1="38" y1="59" x2="22" y2="66" stroke="#22252A" stroke-width="2.6" stroke-linecap="round" />
+              <line x1="38" y1="79" x2="28" y2="98" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <line x1="38" y1="79" x2="48" y2="98" stroke="#22252A" stroke-width="2.8" stroke-linecap="round" />
+              <!-- Notepad -->
+              <rect x="64" y="48" width="38" height="46" rx="4" fill="#FFFDF9" stroke="#22252A" stroke-width="2.2" />
+              <line x1="71" y1="60" x2="95" y2="60" stroke="#7E22CE" stroke-width="2.2" />
+              <line x1="71" y1="70" x2="95" y2="70" stroke="#22252A" stroke-width="2" />
+              <line x1="71" y1="80" x2="88" y2="80" stroke="#22252A" stroke-width="2" />
+              <!-- Magnifying glass -->
+              <circle cx="76" cy="27" r="11" fill="#BAE6FD" stroke="#22252A" stroke-width="2.4" />
+              <line x1="84" y1="35" x2="95" y2="45" stroke="#22252A" stroke-width="3.2" stroke-linecap="round" />
+            </svg>
+            <div>
+              <span class="sketch-pill bg-[#E9D5FF] px-3 py-0.5 font-hand text-[21px] font-bold">Job 4</span>
+              <h2 class="font-hand text-[29px] leading-tight font-bold text-[#22252A] mt-1">Empathy Observer</h2>
+              <p class="text-[17px] font-bold text-[#374151] leading-snug mt-1">
+                Watches real users (students, parents, staff, trolley/wheelchair users); notes <strong>problems &amp; causes</strong> + takes <strong>3–4 close-up photos</strong>.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Bottom Yellow Masking-Tape Interactive Checklist Strip -->
+        <div class="sketch-card bg-[#FEF08A] px-5 py-3 flex items-center justify-between gap-3">
+          <span class="font-hand text-[24px] font-bold text-[#22252A] shrink-0">📌 Don't Return Until Checked:</span>
+          <div class="flex items-center gap-4 flex-wrap">
+            <label class="check-item flex items-center gap-2 font-extrabold text-[15.5px] text-[#22252A]">
+              <span class="check-box-icon" aria-hidden="true"></span>
+              <span class="check-text">Sharp video/scan (no blur)</span>
+            </label>
+            <label class="check-item flex items-center gap-2 font-extrabold text-[15.5px] text-[#22252A]">
+              <span class="check-box-icon" aria-hidden="true"></span>
+              <span class="check-text">Roofline visible</span>
+            </label>
+            <label class="check-item flex items-center gap-2 font-extrabold text-[15.5px] text-[#22252A]">
+              <span class="check-box-icon" aria-hidden="true"></span>
+              <span class="check-text">1 m stick in frame</span>
+            </label>
+            <label class="check-item flex items-center gap-2 font-extrabold text-[15.5px] text-[#22252A]">
+              <span class="check-box-icon" aria-hidden="true"></span>
+              <span class="check-text">3–4 problem photos saved</span>
+            </label>
+          </div>
+        </div>
+
+        <span class="slide-num-stamp">Slide 5 / 9</span>
+      </section>
+
+      <!-- =================================================================
+           SLIDE 6 — HOMEWORK GUIDE: BOOKLET TASK ONE (PAGE 15)
+           ================================================================= -->
+      <section class="slide sketchbook-paper" data-slide="6" aria-label="Slide 6: Homework Guide Booklet Page 15">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-hand text-[20px] font-bold text-[#1D4ED8] uppercase tracking-wide">Booklet Walkthrough • Task ONE</span>
+            <h1 class="font-hand text-[46px] leading-none font-bold text-[#22252A]">
+              Homework Part 1: <span class="hl-blue">Empathy &amp; Define</span> (Booklet p. 15)
+            </h1>
+          </div>
+          <span class="sketch-pill bg-[#FEF08A] px-4 py-1 font-hand text-[22px] font-bold">Page 15 Guide</span>
+        </div>
+
+        <!-- Split Layout: Left 38% Booklet Mockup | Right 62% Numbered Guidance Cards -->
+        <div class="grid grid-cols-[38%_1fr] gap-7 flex-1 mt-4 mb-1 items-stretch">
+
+          <!-- Left Panel: Handmade Miniature Mockup of Page 15 -->
+          <div class="sketch-card bg-[#FFFFFF] p-5 flex flex-col justify-between relative">
+            <div class="tape tape-yellow"></div>
+            <div>
+              <p class="text-[11px] font-bold text-[#64748B] tracking-wide uppercase">S2 STEAM MAKER Learning Record Booklet</p>
+              <h3 class="font-body text-[15px] font-black text-[#22252A] mt-0.5">5. Our STEAM MAKER Proposal (Task ONE)</h3>
+              <div class="border-b-2 border-dotted border-[#94A3B8] my-2"></div>
+
+              <!-- Mini Group Table -->
+              <div class="border-2 border-[#22252A] text-[12px] mb-3 bg-[#F8FAFC]">
+                <div class="grid grid-cols-[42%_58%] border-b border-[#22252A]">
+                  <div class="p-1.5 font-bold border-r border-[#22252A]">Group leader</div>
+                  <div class="p-1.5 text-[#94A3B8] italic">Name, Class &amp; No.</div>
+                </div>
+                <div class="grid grid-cols-[42%_58%]">
+                  <div class="p-1.5 font-bold border-r border-[#22252A]">Members (1–4)</div>
+                  <div class="p-1.5 text-[#94A3B8] italic">All teammates...</div>
+                </div>
+              </div>
+
+              <!-- Main Proposal Boxes with Red Numbered Badges -->
+              <div class="border-2 border-[#22252A] text-[12.5px] bg-[#FFFDF9]">
+                <!-- Row 1 -->
+                <div class="grid grid-cols-[38%_62%] border-b-2 border-[#22252A] relative bg-[#FEF9C3]/45">
+                  <div class="p-2 font-extrabold border-r-2 border-[#22252A] leading-tight">Proposed Project Title</div>
+                  <div class="p-2 text-[#64748B] italic flex items-center">Specific title here...</div>
+                  <span class="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#DC2626] text-white font-hand text-[22px] font-bold flex items-center justify-center border-2 border-[#22252A] shadow-[2px_2px_0px_#22252A]">1</span>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="grid grid-cols-[38%_62%] border-b-2 border-[#22252A] relative min-h-[104px] bg-[#E0F2FE]/45">
+                  <div class="p-2 border-r-2 border-[#22252A] leading-tight">
+                    <div class="font-extrabold">Target person/group</div>
+                    <div class="font-black text-[#1D4ED8] italic">Empathy</div>
+                    <div class="text-[11px] text-[#475569] mt-0.5">Who do you want to help?</div>
+                  </div>
+                  <div class="p-2 text-[#475569] text-[11.5px] flex flex-col justify-between">
+                    <div>The person/group I want to help is: ________</div>
+                    <div>It is because: ________________________</div>
+                  </div>
+                  <span class="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#DC2626] text-white font-hand text-[22px] font-bold flex items-center justify-center border-2 border-[#22252A] shadow-[2px_2px_0px_#22252A]">2</span>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="grid grid-cols-[38%_62%] relative min-h-[142px] bg-[#DCFCE7]/45">
+                  <div class="p-2 border-r-2 border-[#22252A] leading-tight">
+                    <div class="font-black text-[#0F766E] italic">Define</div>
+                    <div class="text-[11px] text-[#475569] mt-0.5">What are the problems? What are the causes?</div>
+                  </div>
+                  <div class="p-2 text-[#475569] text-[11.5px]">
+                    <div class="font-bold text-[#22252A] mb-1">Key points of observation:</div>
+                    <div class="border-b border-dashed border-[#94A3B8] h-5"></div>
+                    <div class="border-b border-dashed border-[#94A3B8] h-5"></div>
+                    <div class="border-b border-dashed border-[#94A3B8] h-5"></div>
+                  </div>
+                  <span class="absolute -right-4 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-[#DC2626] text-white font-hand text-[22px] font-bold flex items-center justify-center border-2 border-[#22252A] shadow-[2px_2px_0px_#22252A]">3</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-center font-hand text-[16px] text-[#64748B] mt-2">— Booklet Page 15 —</div>
+          </div>
+
+          <!-- Right Panel: Matching Numbered Guidance Cards -->
+          <div class="flex flex-col justify-between gap-4">
+
+            <!-- Guidance Card 1 -->
+            <div class="sketch-card p-5 flex gap-4 items-start">
+              <div class="w-11 h-11 rounded-full bg-[#DC2626] text-white font-hand text-[28px] font-bold flex items-center justify-center border-2 border-[#22252A] shadow-[2px_3px_0px_#22252A] shrink-0">1</div>
+              <div>
+                <h2 class="font-hand text-[28px] leading-tight font-bold text-[#22252A]">
+                  Proposed Project Title <span class="hl-yellow text-[22px]">WHAT + WHY</span>
+                </h2>
+                <p class="text-[17.5px] font-bold text-[#374151] mt-1">
+                  Be specific! Don't just write "School Entrance" — name <strong>what</strong> you redesign and <strong>why</strong>.
+                </p>
+                <div class="mt-2 bg-[#FEF9C3] border-2 border-dashed border-[#22252A]/60 rounded-xl px-3.5 py-1.5 text-[16.5px] font-extrabold text-[#22252A]">
+                  Example: "Rain-Proof Canopy Extension for the Main Entrance"
+                </div>
+              </div>
+            </div>
+
+            <!-- Guidance Card 2 -->
+            <div class="sketch-card-alt p-5 flex gap-4 items-start">
+              <div class="w-11 h-11 rounded-full bg-[#DC2626] text-white font-hand text-[28px] font-bold flex items-center justify-center border-2 border-[#22252A] shadow-[2px_3px_0px_#22252A] shrink-0">2</div>
+              <div>
+                <h2 class="font-hand text-[28px] leading-tight font-bold text-[#22252A]">
+                  Empathy (Target Group) <span class="hl-blue text-[22px]">WHO Struggles?</span>
+                </h2>
+                <p class="text-[17.5px] font-bold text-[#374151] mt-1">
+                  Pick <strong>ONE specific group</strong> you actually observed today + explain <strong>why</strong> they struggle most.
+                </p>
+                <div class="mt-2 bg-[#E0F2FE] border-2 border-dashed border-[#1D4ED8]/60 rounded-xl px-3.5 py-1.5 text-[16.5px] font-extrabold text-[#1E3A8A]">
+                  Example: "Students &amp; parents folding wet umbrellas on rainy mornings."
+                </div>
+              </div>
+            </div>
+
+            <!-- Guidance Card 3 -->
+            <div class="sketch-card p-5 flex gap-4 items-start">
+              <div class="w-11 h-11 rounded-full bg-[#DC2626] text-white font-hand text-[28px] font-bold flex items-center justify-center border-2 border-[#22252A] shadow-[2px_3px_0px_#22252A] shrink-0">3</div>
+              <div>
+                <h2 class="font-hand text-[28px] leading-tight font-bold text-[#22252A]">
+                  Define (Problems &amp; Causes) <span class="hl-mint text-[22px]">Facts, Not Guesses!</span>
+                </h2>
+                <p class="text-[17.5px] font-bold text-[#374151] mt-1">
+                  Use <strong>REAL observed facts</strong> from fieldwork! Separate the <strong>Problem</strong> from the <strong>Root Cause</strong>:
+                </p>
+                <div class="grid grid-cols-2 gap-3 mt-2">
+                  <div class="bg-[#FEE2E2] border-2 border-[#DC2626]/70 rounded-xl px-3 py-1.5 text-[15.5px] font-extrabold text-[#7F1D1D]">
+                    Problem: Slippery steps &amp; doorway jam
+                  </div>
+                  <div class="bg-[#DCFCE7] border-2 border-[#0F766E]/70 rounded-xl px-3 py-1.5 text-[15.5px] font-extrabold text-[#14532D]">
+                    Root Cause: Short canopy overhang / steep steps
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <span class="slide-num-stamp">Slide 6 / 9</span>
+      </section>
+
+      <!-- =================================================================
+           SLIDE 7 — HOMEWORK GUIDE: BOOKLET TASK ONE (PAGE 16)
+           ================================================================= -->
+      <section class="slide sketchbook-paper" data-slide="7" aria-label="Slide 7: Homework Guide Booklet Page 16">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-hand text-[20px] font-bold text-[#0F766E] uppercase tracking-wide">Booklet Walkthrough • Task ONE (Continued)</span>
+            <h1 class="font-hand text-[46px] leading-none font-bold text-[#22252A]">
+              Homework Part 2: <span class="hl-mint">Ideate, Sketch &amp; Teamwork</span> (Booklet p. 16)
+            </h1>
+          </div>
+          <span class="sketch-pill bg-[#BBF7D0] px-4 py-1 font-hand text-[22px] font-bold">Page 16 Guide</span>
+        </div>
+
+        <!-- Two Columns: Left 52% | Right 48% -->
+        <div class="grid grid-cols-[52%_1fr] gap-7 flex-1 mt-4 mb-1">
+
+          <!-- Left Column -->
+          <div class="flex flex-col justify-between gap-4">
+            <!-- Ideate Text Formula Card -->
+            <div class="sketch-card p-5 flex-1 flex flex-col justify-between">
+              <div class="tape tape-coral tape-left"></div>
+              <div class="flex items-center justify-between gap-2 mb-2">
+                <h2 class="font-hand text-[28px] leading-tight font-bold text-[#22252A]">
+                  Ideate Text — NOT LESS THAN 50 WORDS!
+                </h2>
+                <span class="sketch-pill bg-[#FEF08A] px-3 py-0.5 font-hand text-[19px] font-bold text-[#DC2626] shrink-0">
+                  Aim: 60–80 words!
+                </span>
+              </div>
+
+              <p class="text-[16px] font-extrabold text-[#4B515C] mb-2">Use this easy 4-Sentence Formula:</p>
+              <ol class="space-y-2.5 text-[17.5px] font-bold text-[#22252A]">
+                <li class="flex items-start gap-2.5">
+                  <span class="w-7 h-7 rounded-full bg-[#BAE6FD] border-2 border-[#22252A] flex items-center justify-center font-hand text-[20px] font-bold shrink-0">1</span>
+                  <span><strong>WHAT</strong> we will add or change at the entrance.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="w-7 h-7 rounded-full bg-[#FEF08A] border-2 border-[#22252A] flex items-center justify-center font-hand text-[20px] font-bold shrink-0">2</span>
+                  <span><strong>MATH / SIZE</strong> — estimated length, height, angle, or slope ratio.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="w-7 h-7 rounded-full bg-[#BBF7D0] border-2 border-[#22252A] flex items-center justify-center font-hand text-[20px] font-bold shrink-0">3</span>
+                  <span><strong>HOW</strong> it solves the user's problem.</span>
+                </li>
+                <li class="flex items-start gap-2.5">
+                  <span class="w-7 h-7 rounded-full bg-[#E9D5FF] border-2 border-[#22252A] flex items-center justify-center font-hand text-[20px] font-bold shrink-0">4</span>
+                  <span><strong>HOW</strong> we will test it (on our foam board scale model).</span>
+                </li>
+              </ol>
+            </div>
+
+            <!-- Two Compact Boxes Underneath -->
+            <div class="grid grid-cols-2 gap-4">
+              <div class="sketch-card-alt bg-[#FFFBEB] p-4">
+                <h3 class="font-hand text-[24px] font-bold text-[#22252A] mb-1">
+                  📦 Materials &amp; Budget
+                </h3>
+                <p class="text-[15.5px] font-bold text-[#374151] leading-snug">
+                  List model items (foam board, glue, clear plastic). Write <span class="hl-yellow">"$0 (school provided)"</span> if free!
+                </p>
+              </div>
+              <div class="sketch-card bg-[#F0F9FF] p-4">
+                <h3 class="font-hand text-[24px] font-bold text-[#22252A] mb-1">
+                  🤝 Division of Labour
+                </h3>
+                <p class="text-[15.5px] font-bold text-[#374151] leading-snug">
+                  Write <strong>every member's job</strong>: scanning, math &amp; scale, cutting, and booklet writing.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Example Architectural Side-View Sketch -->
+          <div class="sketch-card-alt p-5 flex flex-col justify-between">
+            <div class="tape tape-blue"></div>
+            <div class="flex items-center justify-between mb-2">
+              <h2 class="font-hand text-[27px] leading-tight font-bold text-[#22252A]">
+                Ideate Drawing — Example Side-View Sketch
+              </h2>
+            </div>
+
+            <!-- Crisp Architectural Hand-Drawn Side-View SVG -->
+            <div class="bg-[#FAF6EE] border-2 border-[#22252A] rounded-2xl p-2 flex-1 flex items-center justify-center relative" style="background-image: linear-gradient(to right, #E7DFCF 1px, transparent 1px), linear-gradient(to bottom, #E7DFCF 1px, transparent 1px); background-size: 18px 18px;">
+              <svg viewBox="0 0 510 345" class="w-full h-[325px]" xmlns="http://www.w3.org/2000/svg">
+                <!-- Legend in top right -->
+                <rect x="336" y="10" width="162" height="54" rx="10" fill="#FFFDF9" stroke="#22252A" stroke-width="1.8" />
+                <line x1="348" y1="28" x2="376" y2="28" stroke="#22252A" stroke-width="3.2" />
+                <text x="384" y="33" font-family="Patrick Hand, cursive" font-size="16" font-weight="bold" fill="#22252A">Existing Wall</text>
+                <line x1="348" y1="50" x2="376" y2="50" stroke="#1D4ED8" stroke-width="3.6" />
+                <text x="384" y="55" font-family="Patrick Hand, cursive" font-size="16" font-weight="bold" fill="#1D4ED8">New Redesign</text>
+
+                <!-- Ground Line -->
+                <line x1="20" y1="312" x2="490" y2="312" stroke="#22252A" stroke-width="3" stroke-linecap="round" />
+
+                <!-- Existing School Entrance Building Wall (Charcoal Ink) -->
+                <rect x="36" y="34" width="114" height="278" fill="#E5E7EB" stroke="#22252A" stroke-width="3" />
+                <!-- Interior wall hatch lines -->
+                <g stroke="#94A3B8" stroke-width="1.4">
+                  <line x1="36" y1="68" x2="72" y2="34" />
+                  <line x1="36" y1="108" x2="112" y2="34" />
+                  <line x1="36" y1="148" x2="150" y2="34" />
+                  <line x1="36" y1="188" x2="150" y2="74" />
+                  <line x1="36" y1="228" x2="150" y2="114" />
+                </g>
+                <!-- Doorway Cutout -->
+                <rect x="136" y="176" width="14" height="100" fill="#FFFDF9" stroke="#22252A" stroke-width="2.5" />
+                <text x="86" y="218" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="21" font-weight="bold" fill="#22252A">Existing</text>
+                <text x="86" y="240" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="21" font-weight="bold" fill="#22252A">Entrance</text>
+
+                <!-- Existing Short Roof Overhang -->
+                <rect x="150" y="100" width="76" height="16" fill="#CBD5E1" stroke="#22252A" stroke-width="2.8" />
+                <text x="188" y="92" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="16" fill="#475569">Old roof</text>
+
+                <!-- Existing 3 Concrete Steps -->
+                <path d="M 150 276 L 236 276 L 236 288 L 264 288 L 264 300 L 292 300 L 292 312 L 150 312 Z" fill="#CBD5E1" stroke="#22252A" stroke-width="2.6" stroke-linejoin="round" />
+                <text x="218" y="303" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="16" font-weight="bold" fill="#22252A">Steps</text>
+
+                <!-- NEW EXTENDED SLOPED CANOPY IN BLUE MARKER -->
+                <polygon points="226,100 416,134 413,146 226,116" fill="#BAE6FD" stroke="#1D4ED8" stroke-width="3.6" stroke-linejoin="round" />
+                <!-- Support strut in Blue Marker -->
+                <line x1="226" y1="158" x2="310" y2="128" stroke="#1D4ED8" stroke-width="3.4" stroke-linecap="round" />
+                <!-- Support column / post (slim) -->
+                <line x1="398" y1="143" x2="398" y2="312" stroke="#1D4ED8" stroke-width="4" stroke-dasharray="10 4" />
+
+                <!-- Slanted Raindrops hitting & bouncing off canopy -->
+                <g stroke="#0284C7" stroke-width="2.2" stroke-linecap="round">
+                  <line x1="260" y1="44" x2="250" y2="72" />
+                  <line x1="296" y1="40" x2="286" y2="68" />
+                  <line x1="336" y1="54" x2="326" y2="82" />
+                  <line x1="378" y1="74" x2="368" y2="102" />
+                  <!-- Runoff splash arrow off the edge -->
+                  <path d="M 422 142 Q 446 154 452 190" fill="none" stroke="#0284C7" stroke-width="2.6" stroke-dasharray="4 3" />
+                  <path d="M 445 182 L 452 192 L 458 181" fill="none" stroke="#0284C7" stroke-width="2.6" />
+                </g>
+                <text x="456" y="210" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="17" font-weight="bold" fill="#0369A1">Rain</text>
+                <text x="456" y="226" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="17" font-weight="bold" fill="#0369A1">drains!</text>
+
+                <!-- CALLOUT 1: +2.0 m overhang -->
+                <line x1="226" y1="74" x2="416" y2="74" stroke="#DC2626" stroke-width="2.4" />
+                <line x1="226" y1="66" x2="226" y2="96" stroke="#DC2626" stroke-width="2" stroke-dasharray="3 3" />
+                <line x1="416" y1="66" x2="416" y2="130" stroke="#DC2626" stroke-width="2" stroke-dasharray="3 3" />
+                <rect x="258" y="56" width="128" height="28" rx="8" fill="#FEF08A" stroke="#DC2626" stroke-width="2" />
+                <text x="322" y="76" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#991B1B">+2.0 m overhang</text>
+
+                <!-- CALLOUT 2: 10° tilt angle -->
+                <line x1="226" y1="100" x2="338" y2="100" stroke="#1D4ED8" stroke-width="1.8" stroke-dasharray="5 4" />
+                <path d="M 304 100 A 78 78 0 0 1 301 114" fill="none" stroke="#DC2626" stroke-width="2.6" />
+                <rect x="314" y="88" width="70" height="24" rx="7" fill="#FECACA" stroke="#DC2626" stroke-width="1.8" />
+                <text x="349" y="106" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="18" font-weight="bold" fill="#991B1B">10° tilt</text>
+
+                <!-- CALLOUT 3: 2.5 m clearance height -->
+                <line x1="342" y1="136" x2="342" y2="310" stroke="#0F766E" stroke-width="2.6" />
+                <path d="M 335 148 L 342 135 L 349 148" fill="none" stroke="#0F766E" stroke-width="2.6" stroke-linecap="round" />
+                <path d="M 335 298 L 342 311 L 349 298" fill="none" stroke="#0F766E" stroke-width="2.6" stroke-linecap="round" />
+                <rect x="242" y="206" width="144" height="44" rx="10" fill="#BBF7D0" stroke="#0F766E" stroke-width="2" />
+                <text x="314" y="226" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#0F766E">2.5 m clearance</text>
+                <text x="314" y="244" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="18" font-weight="bold" fill="#0F766E">height</text>
+              </svg>
+            </div>
+
+            <!-- Checklist Caption under Sketch -->
+            <div class="mt-2.5 bg-[#FEF9C3] border-2 border-[#22252A] rounded-xl px-4 py-2 text-[15.5px] font-extrabold text-[#22252A] text-center">
+              ✓ Must show: <strong>Existing entrance</strong> + <strong class="text-[#1D4ED8]">New part in 2nd color</strong> + <strong class="text-[#DC2626]">3+ measurements/angles</strong>.
+            </div>
+          </div>
+
+        </div>
+
+        <span class="slide-num-stamp">Slide 7 / 9</span>
+      </section>
+
+      <!-- =================================================================
+           SLIDE 8 — HOMEWORK GUIDE: BOOKLET TASK TWO — LITERATURE REVIEW (PAGE 17)
+           ================================================================= -->
+      <section class="slide sketchbook-paper" data-slide="8" aria-label="Slide 8: Homework Guide Literature Review Page 17">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-hand text-[20px] font-bold text-[#7E22CE] uppercase tracking-wide">Booklet Walkthrough • Task TWO</span>
+            <h1 class="font-hand text-[44px] leading-none font-bold text-[#22252A]">
+              Homework Part 3: <span class="hl-lavender">Literature Review</span> (Booklet p. 17)
+            </h1>
+          </div>
+          <span class="sketch-pill bg-[#FECACA] px-4 py-1 font-hand text-[22px] font-bold text-[#991B1B] rotate-1">
+            RULE: Every member writes at least 1 row!
+          </span>
+        </div>
+
+        <!-- Top Strip: Why do engineers do a Literature Review? -->
+        <div class="sketch-card bg-[#FFFDF9] px-5 py-2.5 flex items-center justify-between gap-3 my-1">
+          <span class="font-hand text-[23px] font-bold text-[#22252A] shrink-0">Why do engineers do a Literature Review?</span>
+          <div class="flex items-center gap-2.5">
+            <span class="sketch-pill bg-[#FEF08A] px-3.5 py-1 font-hand text-[20px] font-bold">1. Stop Guessing</span>
+            <span class="font-hand text-[24px] font-bold text-[#22252A]">→</span>
+            <span class="sketch-pill bg-[#BAE6FD] px-3.5 py-1 font-hand text-[20px] font-bold">2. Find Real Rules &amp; Math</span>
+            <span class="font-hand text-[24px] font-bold text-[#22252A]">→</span>
+            <span class="sketch-pill bg-[#BBF7D0] px-3.5 py-1 font-hand text-[20px] font-bold">3. Prove Your Idea Works</span>
+          </div>
+        </div>
+
+        <!-- Centerpiece: Hand-Drawn 3-Column Booklet Table -->
+        <div class="sketch-card overflow-hidden flex-1 flex flex-col my-1">
+          <table class="w-full h-full border-collapse text-left">
+            <thead>
+              <tr class="bg-[#22252A] text-[#FAF6EE]">
+                <th class="p-3 font-hand text-[23px] font-bold border-r-2 border-[#FAF6EE]/30 w-[22%]">Search word(s)</th>
+                <th class="p-3 font-hand text-[23px] font-bold border-r-2 border-[#FAF6EE]/30 w-[33%]">Search results (URL / Title / AI Platform)</th>
+                <th class="p-3 font-hand text-[23px] font-bold w-[45%]">Record — Answer ALL 3 in 1 sentence each!</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Guidance Row -->
+              <tr class="bg-[#FAF6EE] border-b-2 border-[#22252A]">
+                <td class="p-3.5 border-r-2 border-[#22252A] align-top">
+                  <span class="inline-block bg-[#FEF08A] border border-[#22252A] rounded px-2 py-0.5 text-[12px] font-black uppercase mb-1">What to write</span>
+                  <p class="text-[16px] font-bold text-[#22252A] leading-snug">
+                    Short English keywords <br/><span class="text-[#64748B]">(not a whole essay question!)</span>
+                  </p>
+                </td>
+                <td class="p-3.5 border-r-2 border-[#22252A] align-top">
+                  <span class="inline-block bg-[#BAE6FD] border border-[#22252A] rounded px-2 py-0.5 text-[12px] font-black uppercase mb-1">What to write</span>
+                  <p class="text-[16px] font-bold text-[#22252A] leading-snug">
+                    Website title + URL.<br/>
+                    <strong>Used AI or a 3D app?</strong> Write the tool name too <em>(Gemini, KIRI Engine, Scaniverse)</em>.
+                  </p>
+                </td>
+                <td class="p-3.5 align-top">
+                  <span class="inline-block bg-[#BBF7D0] border border-[#22252A] rounded px-2 py-0.5 text-[12px] font-black uppercase mb-1">3-Sentence Checklist</span>
+                  <p class="text-[15.5px] font-bold text-[#22252A] leading-snug">
+                    <strong>1. Tells us:</strong> One real number, rule, or fact.<br/>
+                    <strong>2. Related:</strong> How it connects to our school entrance.<br/>
+                    <strong>3. Inspired:</strong> One concrete change in our design.
+                  </p>
+                </td>
+              </tr>
+
+              <!-- Worked Example Row -->
+              <tr class="bg-[#FFFDF9]">
+                <td class="p-3.5 border-r-2 border-[#22252A] align-top">
+                  <span class="inline-block bg-[#E9D5FF] border border-[#22252A] rounded px-2 py-0.5 font-hand text-[16px] font-bold mb-1.5">Example Row</span>
+                  <div class="bg-[#F8FAFC] border-2 border-dashed border-[#22252A]/50 rounded-xl p-2.5 font-mono text-[14.5px] font-extrabold text-[#1D4ED8]">
+                    HK wheelchair ramp gradient standard
+                  </div>
+                </td>
+                <td class="p-3.5 border-r-2 border-[#22252A] align-top">
+                  <p class="text-[16px] font-extrabold text-[#22252A] leading-snug">
+                    Design Manual: Barrier Free Access <em>(Buildings Dept HK)</em>
+                  </p>
+                  <p class="text-[14.5px] font-bold text-[#1D4ED8] underline mt-1">bd.gov.hk/...</p>
+                  <span class="inline-block mt-2 bg-[#E0F2FE] border border-[#1D4ED8] rounded-lg px-2.5 py-0.5 text-[13.5px] font-extrabold text-[#1E3A8A]">
+                    Platform: Google Search / KIRI Engine
+                  </span>
+                </td>
+                <td class="p-3.5 align-top">
+                  <ul class="space-y-1.5 text-[15.5px] font-bold text-[#22252A] leading-snug">
+                    <li><span class="hl-yellow font-extrabold">1. Tells us:</span> Safe wheelchair ramp gradient <strong>&le; 1:12</strong> (about <strong>4.8°</strong>).</li>
+                    <li><span class="hl-blue font-extrabold">2. Related:</span> Our entrance steps are <strong>0.45 m</strong> high.</li>
+                    <li><span class="hl-mint font-extrabold">3. Inspired:</span> Design a <strong>5.4 m folded ramp</strong> with a landing instead of a steep slope.</li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Bottom Easy 4-Person Split Tip Bar -->
+        <div class="sketch-card bg-[#FEF9C3] px-5 py-2.5 flex items-center justify-between text-[16.5px] font-extrabold text-[#22252A]">
+          <span class="font-hand text-[23px] font-bold text-[#B45309]">💡 Easy 4-Person Split:</span>
+          <span><strong>M1:</strong> Safety / Ramp rules</span>
+          <span>•</span>
+          <span><strong>M2:</strong> Rain / Canopy design</span>
+          <span>•</span>
+          <span><strong>M3:</strong> Crowd flow</span>
+          <span>•</span>
+          <span><strong>M4:</strong> 3D Scanning / AI tool used today</span>
+        </div>
+
+        <span class="slide-num-stamp">Slide 8 / 9</span>
+      </section>
+
+      <!-- =================================================================
+           SLIDE 9 — HOMEWORK CHECKLIST & NEXT LESSON PREVIEW
+           ================================================================= -->
+      <section class="slide sketchbook-paper" data-slide="9" aria-label="Slide 9: Homework Checklist and Next Lesson Preview">
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+          <div>
+            <span class="font-hand text-[20px] font-bold text-[#0F766E] uppercase tracking-wide">Wrap-Up &amp; Preview</span>
+            <h1 class="font-hand text-[48px] leading-none font-bold text-[#22252A]">
+              Before <span class="hl-yellow">Next Lesson</span>...
+            </h1>
+          </div>
+          <span class="sketch-pill bg-[#BBF7D0] px-4 py-1 font-hand text-[22px] font-bold">Ready for Lesson 4!</span>
+        </div>
+
+        <!-- Two Side-by-Side Sketchbook Cards -->
+        <div class="grid grid-cols-2 gap-8 flex-1 mt-4 mb-2">
+
+          <!-- Left Card: Interactive Homework Checklist -->
+          <div class="sketch-card p-7 flex flex-col justify-between">
+            <div class="tape tape-yellow"></div>
+            <div>
+              <h2 class="font-hand text-[34px] font-bold text-[#22252A] mb-5 flex items-center gap-2">
+                <span>📝</span> Your Homework Checklist
+              </h2>
+
+              <div class="space-y-5">
+                <div class="check-item sketch-card-alt bg-[#FFFDF9] p-4 flex items-start gap-4">
+                  <span class="check-box-icon mt-0.5" aria-hidden="true"></span>
+                  <div class="check-text">
+                    <div class="font-hand text-[24px] font-bold text-[#1D4ED8] leading-tight">Tonight (5-min Group Chat)</div>
+                    <p class="text-[18px] font-bold text-[#22252A] mt-0.5">
+                      Agree on <strong>1 problem + 1 redesign idea</strong> so Pages 15 &amp; 16 match.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="check-item sketch-card bg-[#FFFDF9] p-4 flex items-start gap-4">
+                  <span class="check-box-icon mt-0.5" aria-hidden="true"></span>
+                  <div class="check-text">
+                    <div class="font-hand text-[24px] font-bold text-[#7E22CE] leading-tight">Individual Task</div>
+                    <p class="text-[18px] font-bold text-[#22252A] mt-0.5">
+                      Finish your <strong>1 Literature Review row</strong> on Page 17.
+                    </p>
+                  </div>
+                </div>
+
+                <div class="check-item sketch-card-alt bg-[#FFFDF9] p-4 flex items-start gap-4">
+                  <span class="check-box-icon mt-0.5" aria-hidden="true"></span>
+                  <div class="check-text">
+                    <div class="font-hand text-[24px] font-bold text-[#0F766E] leading-tight">Backup Check</div>
+                    <p class="text-[18px] font-bold text-[#22252A] mt-0.5">
+                      Save today's <strong>entrance video &amp; photos</strong> in your group folder.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <p class="font-hand text-[19px] text-[#64748B] text-right mt-2">
+              (Tip: Click any item above to tick it off!)
+            </p>
+          </div>
+
+          <!-- Right Card: Coming Up in Lesson 4 -->
+          <div class="sketch-card-alt p-7 flex flex-col justify-between">
+            <div class="tape tape-blue"></div>
+            <div>
+              <h2 class="font-hand text-[34px] font-bold text-[#22252A] mb-3 flex items-center gap-2">
+                <span>📐</span> Coming Up in Lesson 4
+              </h2>
+
+              <!-- Hand-drawn SVG uniting Inclinometer Triangle + 3D Building Wireframe + 1:50 Scale Ruler -->
+              <div class="bg-[#F8F5EE] border-2 border-[#22252A] rounded-2xl p-2 mb-4">
+                <svg viewBox="0 0 490 232" class="w-full h-[224px]" xmlns="http://www.w3.org/2000/svg">
+                  <!-- Ground line -->
+                  <line x1="20" y1="168" x2="468" y2="168" stroke="#22252A" stroke-width="2.5" />
+
+                  <!-- Stick-figure observer on left -->
+                  <circle cx="52" cy="116" r="9" fill="#FFFDF9" stroke="#22252A" stroke-width="2.3" />
+                  <line x1="52" y1="125" x2="52" y2="152" stroke="#22252A" stroke-width="2.4" />
+                  <line x1="52" y1="152" x2="43" y2="168" stroke="#22252A" stroke-width="2.4" />
+                  <line x1="52" y1="152" x2="61" y2="168" stroke="#22252A" stroke-width="2.4" />
+                  <line x1="52" y1="132" x2="68" y2="122" stroke="#22252A" stroke-width="2.2" />
+
+                  <!-- Eye height he bracket -->
+                  <line x1="30" y1="116" x2="30" y2="168" stroke="#0F766E" stroke-width="2" />
+                  <line x1="25" y1="116" x2="35" y2="116" stroke="#0F766E" stroke-width="2" />
+                  <line x1="25" y1="168" x2="35" y2="168" stroke="#0F766E" stroke-width="2" />
+                  <text x="15" y="148" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="19" font-weight="bold" fill="#0F766E">hₑ</text>
+
+                  <!-- Right-Angled Inclinometer Triangle -->
+                  <polygon points="64,116 254,116 254,28" fill="#FEF08A" fill-opacity="0.55" stroke="#1D4ED8" stroke-width="2.6" stroke-linejoin="round" />
+                  <!-- Right angle square -->
+                  <rect x="240" y="102" width="14" height="14" fill="none" stroke="#1D4ED8" stroke-width="2" />
+                  <!-- Angle theta arc -->
+                  <path d="M 104 116 A 40 40 0 0 0 98 99" fill="none" stroke="#DC2626" stroke-width="2.6" />
+                  <text x="114" y="109" font-family="Patrick Hand, cursive" font-size="22" font-weight="bold" fill="#DC2626">θ</text>
+                  <!-- Ground distance d -->
+                  <text x="160" y="138" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="22" font-weight="bold" fill="#1D4ED8">d</text>
+
+                  <!-- Formula Badge floating top-left -->
+                  <rect x="26" y="14" width="174" height="38" rx="11" fill="#FEF08A" stroke="#22252A" stroke-width="2.4" />
+                  <text x="113" y="40" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="24" font-weight="bold" fill="#22252A">H = d tan(θ) + hₑ</text>
+
+                  <!-- 3D Wireframe Building Massing Block on Right -->
+                  <g transform="translate(254, 28)">
+                    <!-- Front wall -->
+                    <rect x="0" y="0" width="110" height="140" fill="#BAE6FD" fill-opacity="0.45" stroke="#22252A" stroke-width="2.5" />
+                    <!-- Side 3D wall -->
+                    <polygon points="110,0 162,-18 162,122 110,140" fill="#93C5FD" fill-opacity="0.45" stroke="#22252A" stroke-width="2.5" stroke-linejoin="round" />
+                    <!-- Top 3D roof -->
+                    <polygon points="0,0 52,-18 162,-18 110,0" fill="#DCFCE7" fill-opacity="0.7" stroke="#22252A" stroke-width="2.5" stroke-linejoin="round" />
+                    <!-- Wireframe mesh diagonals -->
+                    <line x1="0" y1="0" x2="110" y2="140" stroke="#1D4ED8" stroke-width="1.4" stroke-dasharray="5 4" />
+                    <line x1="110" y1="0" x2="162" y2="122" stroke="#1D4ED8" stroke-width="1.4" stroke-dasharray="5 4" />
+                    <!-- Entrance canopy detail -->
+                    <polygon points="18,86 92,86 78,98 4,98" fill="#FEF08A" stroke="#22252A" stroke-width="2" />
+                    <!-- Height H label on right -->
+                    <line x1="180" y1="-16" x2="180" y2="138" stroke="#DC2626" stroke-width="2.4" />
+                    <line x1="173" y1="-16" x2="187" y2="-16" stroke="#DC2626" stroke-width="2.4" />
+                    <line x1="173" y1="138" x2="187" y2="138" stroke="#DC2626" stroke-width="2.4" />
+                    <text x="198" y="68" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="25" font-weight="bold" fill="#DC2626">H</text>
+                  </g>
+
+                  <!-- Miniature 1:50 Scale Ruler along bottom -->
+                  <g transform="translate(46, 184)">
+                    <rect x="0" y="0" width="398" height="34" rx="5" fill="#FFFDF9" stroke="#22252A" stroke-width="2.4" />
+                    <rect x="0" y="0" width="84" height="34" rx="4" fill="#FEF08A" stroke="#22252A" stroke-width="2" />
+                    <text x="42" y="23" text-anchor="middle" font-family="Patrick Hand, cursive" font-size="20" font-weight="bold" fill="#22252A">1 : 50</text>
+                    <!-- Ruler ticks -->
+                    <g stroke="#22252A" stroke-width="2">
+                      <line x1="110" y1="0" x2="110" y2="14" /><line x1="135" y1="0" x2="135" y2="9" />
+                      <line x1="160" y1="0" x2="160" y2="14" /><line x1="185" y1="0" x2="185" y2="9" />
+                      <line x1="210" y1="0" x2="210" y2="14" /><line x1="235" y1="0" x2="235" y2="9" />
+                      <line x1="260" y1="0" x2="260" y2="14" /><line x1="285" y1="0" x2="285" y2="9" />
+                      <line x1="310" y1="0" x2="310" y2="14" /><line x1="335" y1="0" x2="335" y2="9" />
+                      <line x1="360" y1="0" x2="360" y2="14" /><line x1="385" y1="0" x2="385" y2="9" />
+                    </g>
+                    <text x="110" y="28" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" font-weight="800" fill="#475569">0</text>
+                    <text x="160" y="28" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" font-weight="800" fill="#475569">1 m</text>
+                    <text x="210" y="28" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" font-weight="800" fill="#475569">2 m</text>
+                    <text x="260" y="28" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" font-weight="800" fill="#475569">3 m</text>
+                    <text x="310" y="28" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" font-weight="800" fill="#475569">4 m</text>
+                    <text x="360" y="28" text-anchor="middle" font-family="Nunito, sans-serif" font-size="11" font-weight="800" fill="#475569">5 m</text>
+                  </g>
+                </svg>
+              </div>
+            </div>
+
+            <div class="sticky-note bg-[#E0F2FE] px-5 py-4">
+              <p class="text-[19px] font-extrabold leading-snug text-[#22252A]">
+                We calculate the <span class="hl-yellow">TRUE height</span> of our entrance, test our <strong>Assumptions Log</strong> against reality, and lock the scale of our <strong>3D foam-board model</strong>!
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+        <span class="slide-num-stamp">Slide 9 / 9</span>
+      </section>
+
+      <!-- =================================================================
+           LIVE ANNOTATION CANVAS (MOUSE / TOUCH / APPLE PENCIL)
+           ================================================================= -->
+      <canvas id="draw-canvas" width="1280" height="720" aria-label="Slide annotation canvas"></canvas>
+    </div>
+  </main>
+
+  <!-- =================================================================
+       FLOATING BOTTOM CLASSROOM CONTROL BAR
+       ================================================================= -->
+  <nav id="toolbar" aria-label="Presentation Controls">
+    <!-- Slide Navigation -->
+    <button id="prev-btn" type="button" class="tb-btn" title="Previous Slide (Left Arrow)">◀ Prev</button>
+
+    <select id="slide-select" aria-label="Jump to slide">
+      <option value="0">1 / 9 — Title &amp; Missions</option>
+      <option value="1">2 / 9 — 2D to 3D Math</option>
+      <option value="2">3 / 9 — LiDAR vs. Video AI</option>
+      <option value="3">4 / 9 — Break the Math! (5 Rules)</option>
+      <option value="4">5 / 9 — 4 Group Roles</option>
+      <option value="5">6 / 9 — Booklet p. 15</option>
+      <option value="6">7 / 9 — Booklet p. 16</option>
+      <option value="7">8 / 9 — Literature Review (p. 17)</option>
+      <option value="8">9 / 9 — Checklist &amp; Lesson 4</option>
+    </select>
+
+    <button id="next-btn" type="button" class="tb-btn" title="Next Slide (Right Arrow / Space)">Next ▶</button>
+
+    <div class="tb-divider"></div>
+
+    <!-- Annotation / Draw Mode Controls -->
+    <button id="draw-toggle-btn" type="button" class="tb-btn" title="Toggle Pen / Highlighter Overlay (D)">
+      ✏️ Draw: OFF
+    </button>
+
+    <div class="flex items-center gap-1.5" role="group" aria-label="Pen colors">
+      <button type="button" class="pen-swatch selected" data-color="#DC2626" data-width="4" data-alpha="0.95" style="background:#DC2626;" title="Red Pen"></button>
+      <button type="button" class="pen-swatch" data-color="#2563EB" data-width="4" data-alpha="0.95" style="background:#2563EB;" title="Blue Pen"></button>
+      <button type="button" class="pen-swatch" data-color="#FACC15" data-width="20" data-alpha="0.38" style="background:#FEF08A;" title="Yellow Highlighter"></button>
+    </div>
+
+    <button id="undo-draw-btn" type="button" class="tb-btn" title="Undo Last Stroke">↩ Undo</button>
+    <button id="clear-draw-btn" type="button" class="tb-btn" title="Clear Drawings on This Slide">🧹 Clear</button>
+
+    <div class="tb-divider"></div>
+
+    <!-- Fullscreen & Print/PDF -->
+    <button id="fullscreen-btn" type="button" class="tb-btn" title="Toggle Fullscreen (F)">⛶ Fullscreen</button>
+    <button id="print-btn" type="button" class="tb-btn bg-[#FEF08A]" title="Print or Save All Slides as PDF">🖨️ Print / PDF</button>
+  </nav>
+
+  <!-- =================================================================
+       INTERACTIVE PRESENTATION & ANNOTATION SCRIPT
+       ================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      /* -------------------------------------------------------------
+         1. STATE & ELEMENT REFERENCES
+         ------------------------------------------------------------- */
+      const slides = Array.from(document.querySelectorAll('.slide'));
+      const totalSlides = slides.length;
+      let currentSlide = 0;
+
+      const stageScaler = document.getElementById('stage-scaler');
+      const viewport = document.getElementById('viewport');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const slideSelect = document.getElementById('slide-select');
+      const fullscreenBtn = document.getElementById('fullscreen-btn');
+      const printBtn = document.getElementById('print-btn');
+      const toastEl = document.getElementById('toast');
+
+      /* -------------------------------------------------------------
+         2. TOAST HELPER (NEVER USES alert/confirm)
+         ------------------------------------------------------------- */
+      let toastTimer = null;
+      function showToast(message) {
+        toastEl.textContent = message;
+        toastEl.classList.add('show');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toastEl.classList.remove('show');
+        }, 2000);
+      }
+
+      /* -------------------------------------------------------------
+         3. RESPONSIVE 16:9 STAGE SCALING (LAPTOPS, PROJECTORS, IPADS)
+         ------------------------------------------------------------- */
+      function resizeStage() {
+        const vw = viewport.clientWidth;
+        const vh = viewport.clientHeight - 70; // leave room for floating toolbar
+        const padX = 24;
+        const padY = 18;
+        const scaleX = (vw - padX) / 1280;
+        const scaleY = (vh - padY) / 720;
+        const scale = Math.max(0.2, Math.min(scaleX, scaleY));
+        stageScaler.style.transform = `scale(${scale})`;
+      }
+
+      window.addEventListener('resize', resizeStage);
+      window.addEventListener('orientationchange', () => setTimeout(resizeStage, 120));
+
+      /* -------------------------------------------------------------
+         4. SLIDE NAVIGATION
+         ------------------------------------------------------------- */
+      function goToSlide(index) {
+        const clamped = Math.max(0, Math.min(totalSlides - 1, index));
+        if (clamped === currentSlide && slides[currentSlide].classList.contains('active')) {
+          return;
+        }
+        slides[currentSlide].classList.remove('active');
+        currentSlide = clamped;
+        slides[currentSlide].classList.add('active');
+        slideSelect.value = String(currentSlide);
+
+        // Update prev/next disabled styling
+        prevBtn.disabled = currentSlide === 0;
+        prevBtn.style.opacity = currentSlide === 0 ? '0.45' : '1';
+        nextBtn.disabled = currentSlide === totalSlides - 1;
+        nextBtn.style.opacity = currentSlide === totalSlides - 1 ? '0.45' : '1';
+
+        // Re-render saved annotations for the newly active slide
+        redrawCanvas();
+      }
+
+      prevBtn.addEventListener('click', () => goToSlide(currentSlide - 1));
+      nextBtn.addEventListener('click', () => goToSlide(currentSlide + 1));
+      slideSelect.addEventListener('change', (e) => goToSlide(parseInt(e.target.value, 10)));
+
+      // Keyboard navigation: Arrows, Spacebar, PageUp/PageDown, D for Draw, F for Fullscreen
+      document.addEventListener('keydown', (e) => {
+        const tag = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : '';
+        if (tag === 'select' || tag === 'input' || tag === 'textarea') return;
+
+        if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+          e.preventDefault();
+          goToSlide(currentSlide + 1);
+        } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+          e.preventDefault();
+          goToSlide(currentSlide - 1);
+        } else if (e.key === ' ' && tag !== 'button') {
+          e.preventDefault();
+          goToSlide(currentSlide + 1);
+        } else if (e.key.toLowerCase() === 'd') {
+          toggleDrawMode();
+        } else if (e.key.toLowerCase() === 'f') {
+          toggleFullscreen();
+        }
+      });
+
+      /* -------------------------------------------------------------
+         5. INTERACTIVE SLIDE WIDGETS (SLIDES 2, 4, 5, 9)
+         ------------------------------------------------------------- */
+
+      // Slide 2: Quick Check Reveal Button
+      const slide2Answer = document.getElementById('slide2-answer');
+      const slide2RevealBtn = document.getElementById('slide2-reveal-btn');
+      if (slide2RevealBtn && slide2Answer) {
+        slide2RevealBtn.addEventListener('click', () => {
+          const isHidden = slide2Answer.classList.contains('hidden');
+          slide2Answer.classList.toggle('hidden');
+          slide2RevealBtn.textContent = isHidden ? 'Hide Answer' : 'Reveal Answer';
+        });
+      }
+
+      // Slide 4: 5 Interactive Math Deduction Cards + Reveal All / Hide All
+      const deductionCards = Array.from(document.querySelectorAll('.deduction-card'));
+      deductionCards.forEach((card) => {
+        const toggleCard = () => {
+          const nowRevealed = card.classList.toggle('revealed');
+          card.setAttribute('aria-expanded', String(nowRevealed));
+        };
+        card.addEventListener('click', toggleCard);
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleCard();
+          }
+        });
+      });
+
+      const revealAllBtn = document.getElementById('reveal-all-btn');
+      const hideAllBtn = document.getElementById('hide-all-btn');
+      if (revealAllBtn) {
+        revealAllBtn.addEventListener('click', () => {
+          deductionCards.forEach((c) => {
+            c.classList.add('revealed');
+            c.setAttribute('aria-expanded', 'true');
+          });
+        });
+      }
+      if (hideAllBtn) {
+        hideAllBtn.addEventListener('click', () => {
+          deductionCards.forEach((c) => {
+            c.classList.remove('revealed');
+            c.setAttribute('aria-expanded', 'false');
+          });
+        });
+      }
+
+      // Slides 5 & 9: Interactive Checklists
+      const checkItems = Array.from(document.querySelectorAll('.check-item'));
+      const checkSvg = '<svg viewBox="0 0 20 20" class="w-4 h-4" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 10.5L8.2 14.5L16 6" stroke="#22252A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      checkItems.forEach((item) => {
+        item.addEventListener('click', () => {
+          const checked = item.classList.toggle('checked');
+          const iconBox = item.querySelector('.check-box-icon');
+          if (iconBox) {
+            iconBox.innerHTML = checked ? checkSvg : '';
+          }
+        });
+      });
+
+      /* -------------------------------------------------------------
+         6. ANNOTATION OVERLAY (POINTER EVENTS: MOUSE, TOUCH, APPLE PENCIL)
+         ------------------------------------------------------------- */
+      const canvas = document.getElementById('draw-canvas');
+      const ctx = canvas.getContext('2d');
+      const drawToggleBtn = document.getElementById('draw-toggle-btn');
+      const undoDrawBtn = document.getElementById('undo-draw-btn');
+      const clearDrawBtn = document.getElementById('clear-draw-btn');
+      const penSwatches = Array.from(document.querySelectorAll('.pen-swatch'));
+
+      // Store strokes separately for each of the 9 slides
+      const slideStrokes = Array.from({ length: totalSlides }, () => []);
+      let drawMode = false;
+      let isDrawing = false;
+      let activeStroke = null;
+      let currentPen = { color: '#DC2626', width: 4, alpha: 0.95 };
+
+      function toggleDrawMode(forceState) {
+        drawMode = typeof forceState === 'boolean' ? forceState : !drawMode;
+        canvas.classList.toggle('drawing-active', drawMode);
+        drawToggleBtn.classList.toggle('active-tool', drawMode);
+        drawToggleBtn.textContent = drawMode ? '✏️ Draw: ON' : '✏️ Draw: OFF';
+        showToast(drawMode ? 'Draw Mode ON — Annotate with Mouse, Touch, or Apple Pencil' : 'Draw Mode OFF — Click slide cards freely');
+      }
+
+      drawToggleBtn.addEventListener('click', () => toggleDrawMode());
+
+      penSwatches.forEach((swatch) => {
+        swatch.addEventListener('click', () => {
+          penSwatches.forEach((s) => s.classList.remove('selected'));
+          swatch.classList.add('selected');
+          currentPen = {
+            color: swatch.dataset.color,
+            width: parseFloat(swatch.dataset.width),
+            alpha: parseFloat(swatch.dataset.alpha)
+          };
+          if (!drawMode) toggleDrawMode(true);
+        });
+      });
+
+      function getCanvasPoint(e) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: (e.clientX - rect.left) * (1280 / rect.width),
+          y: (e.clientY - rect.top) * (720 / rect.height)
+        };
+      }
+
+      function renderStroke(stroke) {
+        if (!stroke || stroke.points.length === 0) return;
+        ctx.save();
+        ctx.strokeStyle = stroke.color;
+        ctx.lineWidth = stroke.width;
+        ctx.globalAlpha = stroke.alpha;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+
+        if (stroke.points.length === 1) {
+          const p = stroke.points[0];
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p.x + 0.1, p.y + 0.1);
+        } else {
+          ctx.moveTo(stroke.points[0].x, stroke.points[0].y);
+          for (let i = 1; i < stroke.points.length; i++) {
+            ctx.lineTo(stroke.points[i].x, stroke.points[i].y);
+          }
+        }
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      function redrawCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const strokes = slideStrokes[currentSlide] || [];
+        for (let i = 0; i < strokes.length; i++) {
+          renderStroke(strokes[i]);
+        }
+      }
+
+      canvas.addEventListener('pointerdown', (e) => {
+        if (!drawMode) return;
+        e.preventDefault();
+        canvas.setPointerCapture(e.pointerId);
+        isDrawing = true;
+        const pt = getCanvasPoint(e);
+        activeStroke = {
+          color: currentPen.color,
+          width: currentPen.width,
+          alpha: currentPen.alpha,
+          points: [pt]
+        };
+        slideStrokes[currentSlide].push(activeStroke);
+        redrawCanvas();
+      });
+
+      canvas.addEventListener('pointermove', (e) => {
+        if (!drawMode || !isDrawing || !activeStroke) return;
+        e.preventDefault();
+        const pt = getCanvasPoint(e);
+        activeStroke.points.push(pt);
+        // Redraw cleanly so semi-transparent yellow highlighter never doubles up unevenly
+        redrawCanvas();
+      });
+
+      function finishStroke(e) {
+        if (!isDrawing) return;
+        isDrawing = false;
+        activeStroke = null;
+        try {
+          canvas.releasePointerCapture(e.pointerId);
+        } catch (_) {
+          // Safe ignore if pointer capture already released
+        }
+      }
+
+      canvas.addEventListener('pointerup', finishStroke);
+      canvas.addEventListener('pointercancel', finishStroke);
+
+      undoDrawBtn.addEventListener('click', () => {
+        if (slideStrokes[currentSlide].length > 0) {
+          slideStrokes[currentSlide].pop();
+          redrawCanvas();
+        }
+      });
+
+      clearDrawBtn.addEventListener('click', () => {
+        slideStrokes[currentSlide] = [];
+        redrawCanvas();
+        showToast(`Cleared drawings on Slide ${currentSlide + 1}`);
+      });
+
+      /* -------------------------------------------------------------
+         7. FULLSCREEN & PRINT / EXPORT PDF
+         ------------------------------------------------------------- */
+      function toggleFullscreen() {
+        try {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {
+              showToast('Fullscreen may be restricted in preview mode — open in a full browser tab.');
+            });
+          } else {
+            document.exitFullscreen().catch(() => {});
+          }
+        } catch (_) {
+          showToast('Fullscreen is not supported in this browser frame.');
+        }
+      }
+
+      document.addEventListener('fullscreenchange', () => {
+        fullscreenBtn.textContent = document.fullscreenElement ? '✕ Exit Full' : '⛶ Fullscreen';
+        setTimeout(resizeStage, 80);
+      });
+
+      fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+      printBtn.addEventListener('click', () => {
+        showToast('Opening Print / Save as PDF (choose Landscape)...');
+        setTimeout(() => {
+          try {
+            window.print();
+          } catch (_) {
+            showToast('Use your browser Print menu (Ctrl/Cmd + P) in Landscape mode.');
+          }
+        }, 180);
+      });
+
+      /* -------------------------------------------------------------
+         8. INITIALIZE ON LOAD
+         ------------------------------------------------------------- */
+      window.addEventListener('load', () => {
+        resizeStage();
+        goToSlide(0);
+      });
+      // Immediate first layout calculation before fonts settle
+      resizeStage();
+    })();
+  </script>
+</body>
+</html>
